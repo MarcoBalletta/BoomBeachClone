@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+[RequireComponent(typeof(EventManager))]
+public class GameManager : Singleton<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private EventManager eventManager;
 
-    // Update is called once per frame
-    void Update()
+    public EventManager EventManager { get => eventManager; }
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        eventManager = GetComponent<EventManager>();
     }
 }

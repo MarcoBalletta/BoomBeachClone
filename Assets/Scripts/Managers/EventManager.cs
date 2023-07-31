@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public delegate void OnBuildingSelected(Building building);
+    public OnBuildingSelected onBuildingSelected;
+    public delegate void OnBuildingReleased(Building building);
+    public OnBuildingReleased onBuildingReleased;
+    public delegate void OnBuildingOnTile(Building building);
+    public OnBuildingOnTile onBuildingOnTile;
 }
