@@ -22,5 +22,6 @@ public class StatePlacing : State
     public override void OnExit()
     {
         base.OnExit();
+        GameManager.instance.EventManager.onBuildingModeEnded();
     }
 }

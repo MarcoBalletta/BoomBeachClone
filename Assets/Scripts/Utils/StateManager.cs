@@ -7,10 +7,7 @@ public class StateManager : MonoBehaviour
     protected State currentState;
     protected Dictionary<string, State> listOfStates = new Dictionary<string, State>();
 
-    protected virtual void SetupStates()
-    {
-        
-    }
+    protected virtual void SetupStates(){ }
 
     protected virtual void Awake()
     {

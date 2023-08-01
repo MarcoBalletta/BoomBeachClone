@@ -12,11 +12,13 @@ public class StatePlacingBuilding : State
     public override void OnEnter()
     {
         base.OnEnter();
+        (stateManager as StateManagerBuilding).EventManagerBuilding.onBuildingModeActivated();
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
+        (stateManager as StateManagerBuilding).EventManagerBuilding.onBuildingModeUpdate();
     }
 
     public override void OnExit()

@@ -6,8 +6,16 @@ public class EventManager : MonoBehaviour
 {
     public delegate void OnBuildingSelected(Building building);
     public OnBuildingSelected onBuildingSelected;
-    public delegate void OnBuildingReleased(Building building);
-    public OnBuildingReleased onBuildingReleased;
+    
+    public delegate void OnBuildingPlaced(Building building, Tile tile);
+    public OnBuildingPlaced onBuildingPlaced;
+    
     public delegate void OnBuildingOnTile(Building building);
     public OnBuildingOnTile onBuildingOnTile;
+
+    public delegate void OnBuildingModeEnded();
+    public OnBuildingModeEnded onBuildingModeEnded;
+
+    public delegate void OnSimulationModeStarted();
+    public OnSimulationModeStarted onSimulationModeStarted;
 }

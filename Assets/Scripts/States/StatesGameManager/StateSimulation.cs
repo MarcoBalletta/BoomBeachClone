@@ -12,6 +12,7 @@ public class StateSimulation : State
     public override void OnEnter()
     {
         base.OnEnter();
+        GameManager.instance.EventManager.onSimulationModeStarted();
     }
 
     public override void OnUpdate()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2877783263805105940}
   - component: {fileID: 2877783263805105941}
   - component: {fileID: 2877783263805105938}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,3 +115,6 @@ MonoBehaviour:
     column: 0
     gm: {fileID: 0}
     tile: {fileID: 0}
+  normal: {fileID: 2100000, guid: 18966a228491a81489dcb9bba141e39d, type: 2}
+  selected: {fileID: 2100000, guid: f78bc10ed0549a74392d87260f329598, type: 2}
+  placingPosition: {x: 0, y: 1, z: 0}

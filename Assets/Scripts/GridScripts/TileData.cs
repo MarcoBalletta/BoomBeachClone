@@ -24,9 +24,4 @@ public class TileData
     {
         return new Vector2Int(row, column);
     }
-
-    public void ChangeMaterial(Material material)
-    {
-        tile.ChangeMaterial(material);
-    }
 }

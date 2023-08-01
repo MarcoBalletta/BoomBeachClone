@@ -1,27 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Tile : MonoBehaviour, IPointerClickHandler
+public class Tile : MonoBehaviour
 {
     public TileData data;
-    //private Material open;
-    //private Material closed;
-    //private Material normal;
-    //private TileUIManager tileUI;
-
-    //public Material Open { get => open; }
-    //public Material Closed { get => closed; }
-    //public Material Normal { get => normal; }
-    //public TileUIManager TileUI { get => tileUI; }
+    [SerializeField] private Material normal;
+    [SerializeField] private Material selected;
+    private Renderer rend;
+    private Building buildingOccupying;
+    [SerializeField] private Vector3 placingPosition;
 
     private void Awake()
     {
-        //closed = Resources.Load<Material>("Materials/Closed");
-        //open = Resources.Load<Material>("Materials/Open");
-        //normal = Resources.Load<Material>("Materials/Tiles");
-        //tileUI = GetComponentInChildren<TileUIManager>();
+        rend = GetComponent<Renderer>();
     }
 
     public void Initialize(GridManager gridM, int rowInit, int columnInit, Tile tile)
@@ -29,13 +21,34 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         data = new TileData(gridM, rowInit, columnInit, tile);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void ChangeMaterial(Material material)
     {
-        //Debug.Log(gameObject.name);
+        rend.material = material;
     }
 
-    public void ChangeMaterial(Material material)
+    public void SelectedTile()
     {
-        GetComponent<Renderer>().material = material;
+        ChangeMaterial(selected);
+    }
+
+    public void DeselectedTile()
+    {
+        ChangeMaterial(normal);
+    }
+
+    public void PlacedBuilding(Building building)
+    {
+        DeselectedTile();
+        buildingOccupying = building;
+    }
+
+    public Vector3 GetPlacingPosition()
+    {
+        return transform.position + placingPosition;
+    }
+
+    public bool IsOccupied()
+    {
+        return buildingOccupying != null;
     }
 }
