@@ -15,6 +15,7 @@ public class PoolerEntity : MonoBehaviour
     protected virtual void Start()
     {
         InitialSpawnEntities();
+        GameManager.instance.Spawner.SubscribePoolerToList(this);
     }
 
     private void InitialSpawnEntities()

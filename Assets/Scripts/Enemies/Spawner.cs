@@ -36,10 +36,12 @@ public class Spawner : MonoBehaviour
 
     private Task SpawnAllEnemiesInPool(PoolerEntity pooler)
     {
-        for(int i = 0; i< pooler.EntityList.Count; i++)
+        int numberOfElements = pooler.EntityList.Count;
+        for (int i = 0; i< numberOfElements; i++)
         {
             var entity = pooler.GetEntity();
             entity.transform.position = GetRandomPositionInsideCollider();
+            entity.gameObject.SetActive(true);
             Task.Delay(200);
         }
         return Task.CompletedTask;
