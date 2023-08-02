@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class EventManagerGameManager : EventManager
 {
     public delegate void OnBuildingSelected(Building building);
     public OnBuildingSelected onBuildingSelected;

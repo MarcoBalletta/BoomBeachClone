@@ -1293,7 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ccd18267ccf1b4b991fd6063c9c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3419379459821629862, guid: 522d37da2b3aca94aacafd914e666b6e,
+  building: {fileID: 2215964522833834516, guid: 522d37da2b3aca94aacafd914e666b6e,
     type: 3}
 --- !u!1 &1159451515
 GameObject:
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd148efb7895e79429203586f70ff6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSpawnNumber: 10
+  initialSpawnNumber: 1
   entityToSpawn: {fileID: 2973971888659349480, guid: 59459b91e3c6d454d868e99c71261b77,
     type: 3}
 --- !u!1 &1508222325
@@ -1789,7 +1789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ccd18267ccf1b4b991fd6063c9c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3419379459821629862, guid: 522d37da2b3aca94aacafd914e666b6e,
+  building: {fileID: 2215964522833834516, guid: 522d37da2b3aca94aacafd914e666b6e,
     type: 3}
 --- !u!1 &1537753035
 GameObject:
@@ -2279,5 +2279,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ccd18267ccf1b4b991fd6063c9c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3419379459821629862, guid: 522d37da2b3aca94aacafd914e666b6e,
+  building: {fileID: 2215964522833834516, guid: 522d37da2b3aca94aacafd914e666b6e,
     type: 3}

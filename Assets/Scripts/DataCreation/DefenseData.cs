@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="CreateDefense", menuName ="CreateData/Create new defense")]
-public class DefenseData : ScriptableObject
+public class DefenseData : DamageableData
 {
-    public GameObject projectile;
+    public Bullet projectile;
     public float range;
-    public float resistance;
     public float firePower;
     public float shotFrequency;
 }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 880fedd73f74cfe4da8474c1c20969b6, type: 3}
   m_Name: EnemyBase
   m_EditorClassIdentifier: 
-  speed: 0
-  resistance: 0
-  firePower: 0
-  attackFrequency: 0
+  resistance: 25
+  speed: 5
+  range: 15
+  firePower: 10
+  attackFrequency: 5

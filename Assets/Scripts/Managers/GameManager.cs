@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(EventManager))]
+[RequireComponent(typeof(EventManagerGameManager))]
 [RequireComponent(typeof(StateManagerGameManager))]
 public class GameManager : Singleton<GameManager>
 {
-    private EventManager eventManager;
+    private EventManagerGameManager eventManager;
     private StateManagerGameManager stateManager;
     private NavMeshSurface navMesh;
     private Spawner spawner;
     private int simulationSpeed = 1;
+    private List<Building> buildings = new List<Building>();
+    private List<Enemy> enemies;
 
-    public EventManager EventManager { get => eventManager; }
+    public EventManagerGameManager EventManager { get => eventManager; }
     public Spawner Spawner { get => spawner; }
+    public List<Building> Buildings { get => buildings; }
+    public int SimulationSpeed { get => simulationSpeed; }
 
     protected override void Awake()
     {
         base.Awake();
-        eventManager = GetComponent<EventManager>();
+        eventManager = GetComponent<EventManagerGameManager>();
         stateManager = GetComponent<StateManagerGameManager>();
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponentInChildren<Spawner>();
@@ -31,6 +35,8 @@ public class GameManager : Singleton<GameManager>
     { 
         building.transform.position = tile.GetPlacingPosition();
         tile.PlacedBuilding(building);
+        if(building is Defense)
+            buildings.Add(building);
     }
 
     public void PlayModeActivated()

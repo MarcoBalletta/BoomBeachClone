@@ -26,7 +26,7 @@ public class DragAndDropHandler : MonoBehaviour
     private void SetupBuildingSelected(Building building)
     {
         selectedBuilding = Instantiate(building, Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) , Quaternion.identity);
-        selectedBuilding.Setup();
+        //selectedBuilding.Setup();
     }
 
     private void Update()

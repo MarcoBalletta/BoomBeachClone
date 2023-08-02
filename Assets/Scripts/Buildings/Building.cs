@@ -2,43 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
-[RequireComponent(typeof(StateManagerBuilding))]
-[RequireComponent(typeof(EventManagerBuilding))]
+[RequireComponent(typeof(BoxCollider))]
+
 public class Building : MonoBehaviour
 {
-    [SerializeField] private DefenseData data;
-    private StateManagerBuilding stateManager;
-    private EventManagerBuilding eventManager;
-    [SerializeField] private LayerMask layerMask;
-    private SphereCollider coll;
-    private Tile tileUnder;
-
+    protected BoxCollider coll;
+    protected Tile tileUnder;
+    [SerializeField] protected LayerMask layerMask;
+    protected StateManagerBuilding stateManager;
+    protected EventManagerBuilding eventManager;
     public EventManagerBuilding EventManager { get => eventManager; set => eventManager = value; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        coll = GetComponent<SphereCollider>();
+        coll = GetComponent<BoxCollider>();
         stateManager = GetComponent<StateManagerBuilding>();
         eventManager = GetComponent<EventManagerBuilding>();
+    }
+
+    protected virtual void OnEnable()
+    {
         eventManager.onBuildingModeActivated += StartBuildingMode;
         eventManager.onBuildingModeUpdate += CheckTileUnderBuilding;
         eventManager.onBuildingModeReleased += PlaceBuildingIfPossible;
     }
 
-    public void Setup()
-    {
-        coll.radius = data.range;
-    }
-
-    private void StartBuildingMode()
+    protected void StartBuildingMode()
     {
         Debug.Log("StartBuildingMode");
     }
-    
-    private void CheckTileUnderBuilding()
+
+    protected void CheckTileUnderBuilding()
     {
-        if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit , 3f, layerMask, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.GetComponent<Tile>() && !hit.collider.GetComponent<Tile>().IsOccupied())
             {
@@ -54,18 +50,18 @@ public class Building : MonoBehaviour
         }
     }
 
-    private void DeselectTile()
+    protected void DeselectTile()
     {
         if (tileUnder != null)
             tileUnder.DeselectedTile();
     }
 
-    private bool CheckIfTileIsUnder()
+    protected bool CheckIfTileIsUnder()
     {
         return tileUnder != null;
     }
 
-    private void PlaceBuildingIfPossible()
+    protected void PlaceBuildingIfPossible()
     {
         if (CheckIfTileIsUnder())
         {

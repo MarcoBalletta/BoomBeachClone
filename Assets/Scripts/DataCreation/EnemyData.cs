@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CreateEnemy", menuName = "CreateData/Create new enemy")]
-public class EnemyCreator : ScriptableObject
+public class EnemyData : DamageableData
 {
     public float speed;
-    public float resistance;
+    public Bullet projectile;
+    public float range;
     public float firePower;
     public float attackFrequency;
 }

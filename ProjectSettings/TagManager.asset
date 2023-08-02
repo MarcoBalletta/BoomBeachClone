@@ -13,9 +13,9 @@ TagManager:
   - UI
   - DraggableLayer
   - Tile
-  - 
-  - 
-  - 
+  - Bullet
+  - Enemy
+  - Building
   - 
   - 
   - 

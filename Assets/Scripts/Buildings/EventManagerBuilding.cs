@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManagerBuilding : MonoBehaviour
+public class EventManagerBuilding : EventManager
 {
     public delegate void BuildingModeActivated();
     public BuildingModeActivated onBuildingModeActivated;

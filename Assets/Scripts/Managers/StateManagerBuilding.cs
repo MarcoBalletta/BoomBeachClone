@@ -6,7 +6,7 @@ using UnityEngine;
 public class StateManagerBuilding : StateManager
 {
 
-    private EventManagerBuilding eventManagerBuilding;
+    protected EventManagerBuilding eventManagerBuilding;
 
     public EventManagerBuilding EventManagerBuilding { get => eventManagerBuilding; }
 
@@ -14,7 +14,6 @@ public class StateManagerBuilding : StateManager
     {
         listOfStates.Add(Constants.STATE_PLACING, new StatePlacingBuilding(this));
         listOfStates.Add(Constants.STATE_PLACED, new StatePlacedBuilding(this));
-        listOfStates.Add(Constants.STATE_SIMULATION, new StateSimulationBuilding(this));
     }
 
     // Start is called before the first frame update
@@ -22,6 +21,10 @@ public class StateManagerBuilding : StateManager
     {
         base.Awake();
         eventManagerBuilding = GetComponent<EventManagerBuilding>();
+    }
+
+    protected virtual void Start()
+    {
         ChangeState(Constants.STATE_PLACING);
     }
 
