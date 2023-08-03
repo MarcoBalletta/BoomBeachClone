@@ -11,11 +11,11 @@ public class Enemy : MonoBehaviour
     //private NavMeshAgent agent;
     private StateManagerEnemy stateManager;
     private EventManagerEnemy eventManager;
-    private Building targetBuilding;
+    private Defense targetBuilding;
     [SerializeField] private EnemyData data;
 
     public EventManagerEnemy EventManager { get => eventManager; }
-    public Building TargetBuilding { get => targetBuilding; }
+    public Defense TargetBuilding { get => targetBuilding; }
     public EnemyData Data { get => data; set => data = value; }
 
     private void Awake()
@@ -25,9 +25,16 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        eventManager.onResearchEnded += SetTargetBuilding;
+        eventManager.onResearchEnded += SetTargetDefense;
         eventManager.onMovementEnded += StartAttacking;
         eventManager.onAttackEnded += StartResearch;
+    }
+
+    private void OnDisable()
+    {
+        eventManager.onResearchEnded -= SetTargetDefense;
+        eventManager.onMovementEnded -= StartAttacking;
+        eventManager.onAttackEnded -= StartResearch;
     }
 
     private void Start()
@@ -38,11 +45,13 @@ public class Enemy : MonoBehaviour
 
     private void StartResearch()
     {
+        Debug.Log("StartResearch");
         stateManager.ChangeState(Constants.STATE_RESEARCH);
     }
 
-    private void SetTargetBuilding(Building building)
+    private void SetTargetDefense(Defense building)
     {
+        Debug.Log("Set target");
         targetBuilding = building;
         stateManager.ChangeState(Constants.STATE_MOVEMENT);
     }
@@ -60,6 +69,7 @@ public class Enemy : MonoBehaviour
 
     private void StartAttacking()
     {
+        Debug.Log("Start attacking");
         stateManager.ChangeState(Constants.STATE_ATTACK);
     }
 }

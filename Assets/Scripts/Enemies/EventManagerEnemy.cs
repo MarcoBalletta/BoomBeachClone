@@ -11,7 +11,7 @@ public class EventManagerEnemy : EventManager
     public delegate void OnResearchStarted();
     public OnResearchStarted onResearchStarted;
 
-    public delegate void OnResearchEnded(Building building);
+    public delegate void OnResearchEnded(Defense defense);
     public OnResearchEnded onResearchEnded;
 
     public delegate void OnFoundBuilding();
@@ -29,6 +29,6 @@ public class EventManagerEnemy : EventManager
     public delegate void OnAttackEnded();
     public OnAttackEnded onAttackEnded;
 
-    public delegate void OnDead();
+    public delegate void OnDead(Enemy enemy);
     public OnDead onDead;
 }

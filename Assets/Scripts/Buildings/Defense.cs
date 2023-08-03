@@ -29,6 +29,12 @@ public class Defense : Building
         eventManager.onFoundEnemy += AddEnemyToList;
     }
 
+    protected override void OnDisable()
+    {
+        eventManager.onEnemyKilled -= TargetKilled;
+        eventManager.onFoundEnemy -= AddEnemyToList;
+    }
+
     private void Start()
     {
         eventManager.onSetupBuilding(data);
@@ -37,7 +43,10 @@ public class Defense : Building
     public void AddEnemyToList(Enemy enemy)
     {
         if (!targets.Contains(enemy))
+        {
             targets.Add(enemy);
+            enemy.EventManager.onDead += TargetKilled;
+        }
     }
 
     public Enemy GetTarget()
@@ -46,9 +55,10 @@ public class Defense : Building
         return targets[0];
     }
 
-    public void TargetKilled()
+    public void TargetKilled(Enemy enemy)
     {
-
+        targets.Remove(enemy);
+        targets.TrimExcess();
     }
 
     //public void Setup()

@@ -11,9 +11,19 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        simulationModeButton.onClick.AddListener(() => GameManager.instance.PlayModeActivated());
+    }
+
+    private void OnEnable()
+    {
         GameManager.instance.EventManager.onBuildingModeEnded += DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onBuildingModeEnded += HidePlayButton;
-        simulationModeButton.onClick.AddListener(() => GameManager.instance.PlayModeActivated());
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.EventManager.onBuildingModeEnded -= DeactivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onBuildingModeEnded -= HidePlayButton;
     }
 
     #region Building buttons panel

@@ -15,12 +15,18 @@ public class DragAndDropHandler : MonoBehaviour
     {
         input = new InputPlayer();
         input.Enable();
-        input.PlayerInput.MouseClick.canceled += MouseReleased;
     }
 
     private void OnEnable()
     {
+        input.PlayerInput.MouseClick.canceled += MouseReleased;
         GameManager.instance.EventManager.onBuildingSelected += SetupBuildingSelected;
+    }
+
+    private void OnDisable()
+    {
+        input.PlayerInput.MouseClick.canceled -= MouseReleased;
+        GameManager.instance.EventManager.onBuildingSelected -= SetupBuildingSelected;
     }
 
     private void SetupBuildingSelected(Building building)

@@ -14,31 +14,39 @@ public class EnemyResearchComponent : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("Add event research");
         enemyController.EventManager.onResearchStarted += ResearchBuildingToAttack;
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("Remove event research");
+        enemyController.EventManager.onResearchStarted -= ResearchBuildingToAttack;
     }
 
     private void ResearchBuildingToAttack()
     {
-        Building closestBuilding = null;
+        Debug.Log("Research building");
+        Defense closestDefense = null;
         float minimumDistance = 0;
-        foreach(var building in GameManager.instance.Buildings)
+        if (GameManager.instance.Defenses.Count == 0) return;
+        foreach(var defense in GameManager.instance.Defenses)
         {
-            if (closestBuilding == null)
+            if (closestDefense == null)
             {
-                closestBuilding = building;
-                minimumDistance = Vector3.Distance(transform.position, building.transform.position);
+                closestDefense = defense;
+                minimumDistance = Vector3.Distance(transform.position, defense.transform.position);
             }
             else
             {
-                float distance = Vector3.Distance(transform.position, building.transform.position);
+                float distance = Vector3.Distance(transform.position, defense.transform.position);
                 if (distance < minimumDistance)
                 {
-                    closestBuilding = building;
+                    closestDefense = defense;
                     minimumDistance = distance;
                 }
             }
         }
-
-        enemyController.EventManager.onResearchEnded(closestBuilding);
+        enemyController.EventManager.onResearchEnded(closestDefense);
     }
 }

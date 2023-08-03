@@ -28,6 +28,12 @@ public class EnemyMovementComponent : MonoBehaviour
         enemyController.EventManager.onSetupEnemy += SetupMovementComponent;
     }
 
+    private void OnDisable()
+    {
+        enemyController.EventManager.onMovementStarted -= MoveToDestination;
+        enemyController.EventManager.onSetupEnemy -= SetupMovementComponent;
+    }
+
     private void SetupMovementComponent(EnemyData data)
     {
         rangeToAttack = data.range;
@@ -50,6 +56,7 @@ public class EnemyMovementComponent : MonoBehaviour
 
     private IEnumerator CheckDistance()
     {
+        Debug.Log("Check distance");
         while(Vector3.Distance(transform.position, agent.destination) >= rangeToAttack)
         {
             yield return new WaitForSeconds(Time.deltaTime);
@@ -69,9 +76,9 @@ public class EnemyMovementComponent : MonoBehaviour
 
     private void ResumeAgent()
     {
+        agent.enabled = true;
         rb.freezeRotation = false;
         agent.isStopped = false;
         agent.speed = speed;
-        agent.enabled = true;
     }
 }

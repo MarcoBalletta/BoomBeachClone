@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f568451133363438094100b77cde3b, type: 3}
   m_Name: BaseTower
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2525419433735080381, guid: 3c2a0616fe709d843a098793a4ad7e10,
+  resistance: 35
+  projectile: {fileID: 4656680103585594346, guid: 3c2a0616fe709d843a098793a4ad7e10,
     type: 3}
-  buildingObject: {fileID: 6852243391823222838, guid: 522d37da2b3aca94aacafd914e666b6e,
-    type: 3}
-  range: 10
-  resistance: 25
-  firePower: 10
-  shotFrequency: 5
+  range: 16
+  firePower: 15
+  shotFrequency: 1

@@ -8,7 +8,7 @@ public class EventManagerDefense : EventManagerBuilding
     public delegate void OnFoundEnemy(Enemy enemy);
     public OnFoundEnemy onFoundEnemy;
 
-    public delegate void OnEnemyKilled();
+    public delegate void OnEnemyKilled(Enemy enemy);
     public OnEnemyKilled onEnemyKilled;
 
     public delegate void OnResearchEnded();
@@ -20,6 +20,6 @@ public class EventManagerDefense : EventManagerBuilding
     public delegate void OnHit();
     public OnHit onHit;
 
-    public delegate void OnDead();
+    public delegate void OnDead(Defense defense);
     public OnDead onDead;
 }

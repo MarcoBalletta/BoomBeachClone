@@ -12,12 +12,12 @@ public class GameManager : Singleton<GameManager>
     private NavMeshSurface navMesh;
     private Spawner spawner;
     private int simulationSpeed = 1;
-    private List<Building> buildings = new List<Building>();
+    private List<Defense> defenses = new List<Defense>();
     private List<Enemy> enemies;
 
     public EventManagerGameManager EventManager { get => eventManager; }
     public Spawner Spawner { get => spawner; }
-    public List<Building> Buildings { get => buildings; }
+    public List<Defense> Defenses { get => defenses; }
     public int SimulationSpeed { get => simulationSpeed; }
 
     protected override void Awake()
@@ -35,8 +35,11 @@ public class GameManager : Singleton<GameManager>
     { 
         building.transform.position = tile.GetPlacingPosition();
         tile.PlacedBuilding(building);
-        if(building is Defense)
-            buildings.Add(building);
+        if(building is Defense) 
+        { 
+            defenses.Add((building as Defense));
+            (building as Defense).EventManager.onDead += RemoveDefense;
+        }
     }
 
     public void PlayModeActivated()
@@ -47,5 +50,11 @@ public class GameManager : Singleton<GameManager>
     private void BakeNavMesh()
     {
         navMesh.BuildNavMesh();
+    }
+
+    private void RemoveDefense(Defense defense)
+    {
+        defenses.Remove(defense);
+        defenses.TrimExcess();
     }
 }

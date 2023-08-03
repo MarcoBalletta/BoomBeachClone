@@ -9,19 +9,42 @@ public class EnemyAttackComponent : MonoBehaviour
 
     private Enemy enemyController;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private Vector3 bulletSpawnPosition;
-    [SerializeField] private Bullet bulletPrefab;
+    private float attackRate;
+    private float firePower;
+    private Bullet bulletPrefab;
+    private Coroutine shootRoutine;
+    [SerializeField] private Transform bulletSpawn;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         enemyController = GetComponent<Enemy>();
+    }
+
+    private void OnEnable()
+    {
         enemyController.EventManager.onAttackStarted += AttackStarted;
+        enemyController.EventManager.onSetupEnemy += SetupAttackComponent;
+        enemyController.EventManager.onDead += DeathEnemy;
+    }
+
+    private void OnDisable()
+    {
+        enemyController.EventManager.onAttackStarted -= AttackStarted;
+        enemyController.EventManager.onSetupEnemy -= SetupAttackComponent;
+        enemyController.EventManager.onDead -= DeathEnemy;
+    }
+
+    private void SetupAttackComponent(EnemyData data)
+    {
+        attackRate = data.attackFrequency;
+        firePower = data.firePower;
+        bulletPrefab = data.projectile;
     }
 
     private void AttackStarted()
     {
-        StartCoroutine(ShootCoroutine());
+        enemyController.TargetBuilding.EventManager.onDead += TargetDefenseDead;
+        shootRoutine = StartCoroutine(ShootCoroutine());
     }
 
     private IEnumerator RotateTowardsTargetBuilding()
@@ -47,14 +70,27 @@ public class EnemyAttackComponent : MonoBehaviour
         while (enemyController.TargetBuilding != null)
         {
             Shoot();
-            yield return new WaitForSeconds(enemyController.Data.attackFrequency);
+            yield return new WaitForSeconds(attackRate);
         }
-        enemyController.EventManager.onAttackEnded();
     }
     private void Shoot()
     {
-        var bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 2, transform.rotation);
-        bullet.Setup(enemyController.Data.firePower, transform.forward);
+        var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        bullet.Setup(firePower, transform.forward);
+    }
+
+    private void TargetDefenseDead(Defense defense)
+    {
+        StopCoroutine(shootRoutine);
+        enemyController.EventManager.onAttackEnded();
+    }
+
+    private void DeathEnemy(Enemy enemy)
+    {
+        if(enemyController.TargetBuilding != null)
+        {
+            enemyController.TargetBuilding.EventManager.onDead -= TargetDefenseDead;
+        }
     }
 
     #region Version with Task

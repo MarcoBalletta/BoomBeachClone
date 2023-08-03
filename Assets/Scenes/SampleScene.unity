@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd148efb7895e79429203586f70ff6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSpawnNumber: 1
+  initialSpawnNumber: 2
   entityToSpawn: {fileID: 2973971888659349480, guid: 59459b91e3c6d454d868e99c71261b77,
     type: 3}
 --- !u!1 &1508222325

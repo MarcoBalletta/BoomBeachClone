@@ -27,6 +27,13 @@ public class Building : MonoBehaviour
         eventManager.onBuildingModeReleased += PlaceBuildingIfPossible;
     }
 
+    protected virtual void OnDisable()
+    {
+        eventManager.onBuildingModeActivated -= StartBuildingMode;
+        eventManager.onBuildingModeUpdate -= CheckTileUnderBuilding;
+        eventManager.onBuildingModeReleased -= PlaceBuildingIfPossible;
+    }
+
     protected void StartBuildingMode()
     {
         Debug.Log("StartBuildingMode");

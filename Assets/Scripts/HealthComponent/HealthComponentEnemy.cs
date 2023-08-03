@@ -5,22 +5,28 @@ using UnityEngine;
 public class HealthComponentEnemy : HealthComponent
 {
 
-    private EventManagerEnemy eventController;
+    private Enemy enemy;
 
     // Start is called before the first frame update
     void Awake()
     {
-        eventController = GetComponent<EventManagerEnemy>();
+        enemy = GetComponent<Enemy>();
     }
 
     private void OnEnable()
     {
-        eventController.onSetupEnemy += SetupHealthComponent;
+        enemy.EventManager.onSetupEnemy += SetupHealthComponent;
+    }
+
+    private void OnDisable()
+    {
+        enemy.EventManager.onSetupEnemy -= SetupHealthComponent;
     }
 
     protected override void Dead()
     {
         base.Dead();
-        eventController.onDead();
+        enemy.EventManager.onDead(enemy);
+        Destroy(gameObject, 0.1f);
     }
 }
