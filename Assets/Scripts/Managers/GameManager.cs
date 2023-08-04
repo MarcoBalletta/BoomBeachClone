@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,7 @@ public class GameManager : Singleton<GameManager>
         eventManager.onBuildingButtonClick += StartBuildingPlacingMode;
         eventManager.onBuildingPlaced += PlaceBuilding;
         eventManager.onSimulationModeStarted += BakeNavMesh;
+        eventManager.onSpawnEnemy += SpawnedEnemy;
     }
 
     private void Start()
@@ -78,6 +80,8 @@ public class GameManager : Singleton<GameManager>
     {
         defenses.Remove(defense);
         defenses.TrimExcess();
+        if (defense == headquarterInstance) 
+            Debug.Log("Lose");
     }
 
     private void StartPlacingMode()
@@ -95,10 +99,31 @@ public class GameManager : Singleton<GameManager>
         return gridManager.GetCenterOfGrid();
     }
 
-    public void RandomPlaceHeadquarter()
+    public async void RandomPlaceHeadquarter()
     {
         headquarterInstance = Instantiate(headquarterInstance, transform.position, transform.rotation);
         gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
-        headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position);
+        await System.Threading.Tasks.Task.Delay(50);
+        headquarterInstance.PlaceBuilding(headquarterInstance, gridManager.MapTiles[position].tile);
+        //headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position);
+    }
+
+    private void SpawnedEnemy(Enemy enemy)
+    {
+        if (!enemies.Contains(enemy))
+        {
+            enemies.Add(enemy);
+            enemy.EventManager.onDead += DeadEnemy;
+        }
+    }
+
+    private void DeadEnemy(Enemy enemy)
+    {
+        if (enemies.Contains(enemy))
+        {
+            enemies.Remove(enemy);
+            if (enemies.Count == 0)
+                Debug.Log("Win");
+        }
     }
 }

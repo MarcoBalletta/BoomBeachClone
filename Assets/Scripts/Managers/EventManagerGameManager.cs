@@ -40,6 +40,9 @@ public class EventManagerGameManager : EventManager
     public delegate void OnStopDraggingBuilding();
     public OnStopDraggingBuilding onStopDraggingBuilding;
 
-    //public delegate void OnStopDraggingBuilding();
-    //public OnStopDraggingBuilding onStopDraggingBuilding;
+    public delegate void OnSpawnEnemy(Enemy enemy);
+    public OnSpawnEnemy onSpawnEnemy;
+
+    public delegate void OnEndMatch(bool result);
+    public OnEndMatch onEndMatch;
 }

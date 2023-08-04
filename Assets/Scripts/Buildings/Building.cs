@@ -72,19 +72,19 @@ public class Building : MonoBehaviour
         return tileUnder != null;
     }
 
-    protected void PlaceBuildingIfPossible()
+    public void PlaceBuildingIfPossible()
     {
         if (CheckIfTileIsUnder())
         {
             //can place building
-            GameManager.instance.EventManager.onBuildingPlaced(this, tileUnder);
-            stateManager.ChangeState(Constants.STATE_PLACED);
+            PlaceBuilding(this, tileUnder);
         }
-        //else
-        //{
-        //    //can't place building
-        //    Destroy(gameObject);
-        //}
+    }
+
+    public void PlaceBuilding(Building building, Tile tile)
+    {
+        GameManager.instance.EventManager.onBuildingPlaced(building, tile);
+        stateManager.ChangeState(Constants.STATE_PLACED);
     }
 
     public void DeselectedBuilding()

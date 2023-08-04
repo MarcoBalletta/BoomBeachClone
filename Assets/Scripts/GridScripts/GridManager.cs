@@ -21,10 +21,6 @@ public class GridManager : MonoBehaviour
     private void Awake()
     {
         gridData = GetComponent<Grid>();
-    }
-
-    private void Start()
-    {
         GenerateGrid();
     }
 
