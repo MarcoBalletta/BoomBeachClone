@@ -63,23 +63,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
     {
         if (selectedBuilding != null && clickedOnSelectedBuilding)
         {
-            //Vector3 mousePosition = new Vector3(input.PlayerInput.MousePosition.ReadValue<Vector2>().x, input.PlayerInput.MousePosition.ReadValue<Vector2>().y, 0 );
-            //Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.y));
-            //if (Physics.Raycast(mousePos, Camera.main.transform.forward, out RaycastHit hit, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide))
-            //{
-            //    selectedBuilding.transform.position = hit.point + Vector3.up * 2;
-            //    if (hit.collider.GetComponent<Tile>())
-            //    {
-            //        //hit tile, call event
-            //        if (GameManager.instance.EventManager.onBuildingOnTile != null)
-            //        {
-            //            GameManager.instance.EventManager.onBuildingOnTile(selectedBuilding);
-            //        }
-            //    }
-            //}
-
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            //Debug.DrawRay(ray.origin, ray.direction * 5000f, Color.black, 5f);
             if (Physics.Raycast(ray, out RaycastHit hit, 5000f, layerMask, QueryTriggerInteraction.Ignore))
             {
                 selectedBuilding.transform.position = hit.point + Vector3.up * 2;
@@ -111,29 +95,13 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         {
             //selectedBuilding.EventManager.onBuildingModeReleased();
             clickedOnSelectedBuilding = false;
+            GameManager.instance.EventManager.onStopDraggingBuilding();
         }
     }
 
     private void MouseClicked(InputAction.CallbackContext obj)
     {
-        //raycast searching for selected building, select clickedOnSelectedBuilding
-        //Vector3 mousePosition = new Vector3(input.PlayerInput.MousePosition.ReadValue<Vector2>().x, input.PlayerInput.MousePosition.ReadValue<Vector2>().y, 0);
-        //Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.z));
-        //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        //Debug.DrawRay(ray.origin, Camera.main.transform.forward * 5000f, Color.black, 5f);
-        //if (Physics.Raycast(mousePos, Camera.main.transform.forward, out RaycastHit hit ,  5000f, layerMaskBuilding, QueryTriggerInteraction.Ignore))
-        //{
-        //    if(hit.collider.TryGetComponent(out Building building))
-        //    {
-        //        if(building == selectedBuilding)
-        //        {
-        //            clickedOnSelectedBuilding = true;
-        //        }
-        //    }
-        //}
-
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        Debug.DrawRay(ray.origin, ray.direction * 5000f, Color.black, 5f);
         if (Physics.Raycast(ray, out RaycastHit hit, 5000f, layerMaskBuilding, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.TryGetComponent(out Building building))
@@ -141,6 +109,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
                 if (building == selectedBuilding)
                 {
                     clickedOnSelectedBuilding = true;
+                    GameManager.instance.EventManager.onDraggingBuilding();
                 }
             }
         }

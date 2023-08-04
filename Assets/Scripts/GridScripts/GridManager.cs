@@ -95,6 +95,19 @@ public class GridManager : MonoBehaviour
     }
     #endregion
 
+    public Vector3 GetCenterOfGrid()
+    {
+        Vector3 startGrid = GetWorld3DPosition(0, 0);
+        Vector3 endGrid = GetWorld3DPosition(maxRow - 1, maxColumn - 1);
+
+        return new Vector3((startGrid.x + endGrid.x) / 2, 0, (startGrid.z + endGrid.z) / 2);
+    }
+
+    //public float HeightCamera()
+    //{
+    //    return maxColumn * (gridData.cellGap.z + gridData.cellSize.z) + (gridData.cellGap.y + gridData.cellSize.y) + 1;
+    //}
+
     //public bool CheckIfTileIsWalkable(Vector2Int positionGrid)
     //{
     //    return mapTiles[positionGrid].walkable;

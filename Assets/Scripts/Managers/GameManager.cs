@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 {
     private EventManagerGameManager eventManager;
     private StateManagerGameManager stateManager;
+    private GridManager gridManager;
     private NavMeshSurface navMesh;
     private Spawner spawner;
     private int simulationSpeed = 1;
@@ -26,6 +27,7 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         eventManager = GetComponent<EventManagerGameManager>();
         stateManager = GetComponent<StateManagerGameManager>();
+        gridManager = GetComponentInChildren<GridManager>();
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponentInChildren<Spawner>();
         eventManager.onBuildingDeselectButtonClick += StartPlacingMode;
@@ -70,5 +72,10 @@ public class GameManager : Singleton<GameManager>
     private void StartPlacingMode()
     {
         stateManager.ChangeState(Constants.STATE_PLACING);
+    }
+
+    public Vector3 GetCenterGrid()
+    {
+        return gridManager.GetCenterOfGrid();
     }
 }

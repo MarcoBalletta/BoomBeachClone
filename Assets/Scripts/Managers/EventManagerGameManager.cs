@@ -33,4 +33,13 @@ public class EventManagerGameManager : EventManager
 
     public delegate void OnSimulationModeStarted();
     public OnSimulationModeStarted onSimulationModeStarted;
+
+    public delegate void OnDraggingBuilding();
+    public OnDraggingBuilding onDraggingBuilding;
+
+    public delegate void OnStopDraggingBuilding();
+    public OnStopDraggingBuilding onStopDraggingBuilding;
+
+    //public delegate void OnStopDraggingBuilding();
+    //public OnStopDraggingBuilding onStopDraggingBuilding;
 }
