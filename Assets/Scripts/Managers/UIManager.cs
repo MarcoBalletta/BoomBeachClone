@@ -39,7 +39,8 @@ public class UIManager : MonoBehaviour
 
     private void ActivateBuildingButtonsPanel()
     {
-        buildingButtonsPanel.SetActive(true);
+        if(GameManager.instance.CanPlaceOtherBuildings())
+            buildingButtonsPanel.SetActive(true);
     }
 
     #endregion

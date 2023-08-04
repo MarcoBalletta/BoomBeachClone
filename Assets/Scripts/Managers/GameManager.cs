@@ -13,6 +13,11 @@ public class GameManager : Singleton<GameManager>
     private NavMeshSurface navMesh;
     private Spawner spawner;
     private int simulationSpeed = 1;
+    [Range(1,10)]
+    [SerializeField] private int maxPlaceableBuildings = 1;
+    [SerializeField] private Defense headquarterPrefab;
+    [SerializeField] private Defense headquarterInstance;
+    private int actualPlacedBuildings;
     private List<Defense> defenses = new List<Defense>();
     private List<Enemy> enemies;
 
@@ -36,6 +41,11 @@ public class GameManager : Singleton<GameManager>
         eventManager.onSimulationModeStarted += BakeNavMesh;
     }
 
+    private void Start()
+    {
+        RandomPlaceHeadquarter();
+    }
+
     private void PlaceBuilding(Building building, Tile tile)
     { 
         building.transform.position = tile.GetPlacingPosition();
@@ -45,6 +55,7 @@ public class GameManager : Singleton<GameManager>
             defenses.Add((building as Defense));
             (building as Defense).EventManager.onDead += RemoveDefense;
         }
+        actualPlacedBuildings++;
         StartPlacingMode();
     }
 
@@ -74,8 +85,20 @@ public class GameManager : Singleton<GameManager>
         stateManager.ChangeState(Constants.STATE_PLACING);
     }
 
+    public bool CanPlaceOtherBuildings()
+    {
+        return actualPlacedBuildings < maxPlaceableBuildings;
+    }
+
     public Vector3 GetCenterGrid()
     {
         return gridManager.GetCenterOfGrid();
+    }
+
+    public void RandomPlaceHeadquarter()
+    {
+        headquarterInstance = Instantiate(headquarterInstance, transform.position, transform.rotation);
+        gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
+        headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position);
     }
 }

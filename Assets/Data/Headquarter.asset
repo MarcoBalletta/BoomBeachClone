@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f568451133363438094100b77cde3b, type: 3}
+  m_Name: Headquarter
+  m_EditorClassIdentifier: 
+  resistance: 50
+  projectile: {fileID: 4656680103585594346, guid: 3c2a0616fe709d843a098793a4ad7e10,
+    type: 3}
+  range: 16
+  firePower: 15
+  shotFrequency: 1
