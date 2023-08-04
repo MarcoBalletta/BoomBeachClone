@@ -6,6 +6,7 @@ public class Constants
 {
     //Game states
     public const string STATE_PLACING = "Placing";
+    public const string STATE_BUILDING_MODE = "BuildingMode";
     public const string STATE_SIMULATION = "Simulation";
     //BuildingStates
     public const string STATE_PLACED = "Placed";

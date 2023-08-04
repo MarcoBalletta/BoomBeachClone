@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public abstract class HealthComponent : MonoBehaviour, IDamageable
 {
 
-    private float hp;
-    private float actualHP;
-    [SerializeField] private Slider healthBarSlider;
+    protected float hp;
+    protected float actualHP;
+    [SerializeField] protected Slider healthBarSlider;
 
     protected void SetupHealthComponent(DamageableData data)
     {
@@ -16,6 +16,16 @@ public abstract class HealthComponent : MonoBehaviour, IDamageable
         actualHP = hp;
         if(healthBarSlider)
             UpdateUI();
+    }
+
+    protected void ShowHealthUI()
+    {
+        healthBarSlider.gameObject.SetActive(true);
+    }
+
+    protected void HideHealthUI()
+    {
+        healthBarSlider.gameObject.SetActive(false);
     }
 
     public virtual void Damage(float damage)

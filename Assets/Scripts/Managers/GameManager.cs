@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     public Spawner Spawner { get => spawner; }
     public List<Defense> Defenses { get => defenses; }
     public int SimulationSpeed { get => simulationSpeed; }
+    public StateManagerGameManager StateManager { get => stateManager; }
 
     protected override void Awake()
     {
@@ -27,6 +28,8 @@ public class GameManager : Singleton<GameManager>
         stateManager = GetComponent<StateManagerGameManager>();
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponentInChildren<Spawner>();
+        eventManager.onBuildingDeselectButtonClick += StartPlacingMode;
+        eventManager.onBuildingButtonClick += StartBuildingPlacingMode;
         eventManager.onBuildingPlaced += PlaceBuilding;
         eventManager.onSimulationModeStarted += BakeNavMesh;
     }
@@ -40,6 +43,12 @@ public class GameManager : Singleton<GameManager>
             defenses.Add((building as Defense));
             (building as Defense).EventManager.onDead += RemoveDefense;
         }
+        StartPlacingMode();
+    }
+
+    private void StartBuildingPlacingMode(Building building)
+    {
+        stateManager.ChangeState(Constants.STATE_BUILDING_MODE);
     }
 
     public void PlayModeActivated()
@@ -56,5 +65,10 @@ public class GameManager : Singleton<GameManager>
     {
         defenses.Remove(defense);
         defenses.TrimExcess();
+    }
+
+    private void StartPlacingMode()
+    {
+        stateManager.ChangeState(Constants.STATE_PLACING);
     }
 }

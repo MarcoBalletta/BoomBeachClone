@@ -16,14 +16,18 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.EventManager.onBuildingModeEnded += DeactivateBuildingButtonsPanel;
-        GameManager.instance.EventManager.onBuildingModeEnded += HidePlayButton;
+        GameManager.instance.EventManager.onPlacingModeStarted += ActivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onPlacingModeStarted += ShowPlayButton;
+        GameManager.instance.EventManager.onPlacingModeEnded += DeactivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onPlacingModeEnded += HidePlayButton;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.EventManager.onBuildingModeEnded -= DeactivateBuildingButtonsPanel;
-        GameManager.instance.EventManager.onBuildingModeEnded -= HidePlayButton;
+        GameManager.instance.EventManager.onPlacingModeStarted -= ActivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onPlacingModeEnded -= DeactivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onPlacingModeStarted -= ShowPlayButton;
+        GameManager.instance.EventManager.onPlacingModeEnded -= HidePlayButton;
     }
 
     #region Building buttons panel
@@ -35,7 +39,7 @@ public class UIManager : MonoBehaviour
 
     private void ActivateBuildingButtonsPanel()
     {
-        buildingButtonsPanel.SetActive(false);
+        buildingButtonsPanel.SetActive(true);
     }
 
     #endregion

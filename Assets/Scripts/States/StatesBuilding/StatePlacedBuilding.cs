@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StatePlacedBuilding : State
 {
+
     public StatePlacedBuilding(StateManagerBuilding sm) : base(sm)
     {
         nameOfState = Constants.STATE_PLACED;
@@ -12,5 +13,6 @@ public class StatePlacedBuilding : State
     public override void OnEnter()
     {
         base.OnEnter();
+        (stateManager as StateManagerBuilding).EventManagerBuilding?.onPlacedBuilding();
     }
 }

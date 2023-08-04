@@ -14,6 +14,8 @@ public class HealthComponentDefense : HealthComponent
     private void OnEnable()
     {
         defense.EventManager.onSetupBuilding += SetupHealthComponent;
+        defense.EventManager.onBuildingModeActivated += HideHealthUI;
+        defense.EventManager.onPlacedBuilding += ShowHealthUI;
     }
 
     private void OnDisable()

@@ -12,6 +12,8 @@ public class StatePlacing : State
     public override void OnEnter()
     {
         base.OnEnter();
+        if(GameManager.instance.EventManager?.onPlacingModeStarted != null)
+            GameManager.instance.EventManager?.onPlacingModeStarted();
     }
 
     public override void OnUpdate()
@@ -22,6 +24,7 @@ public class StatePlacing : State
     public override void OnExit()
     {
         base.OnExit();
-        GameManager.instance.EventManager.onBuildingModeEnded();
+        if (GameManager.instance.EventManager?.onPlacingModeEnded != null)
+            GameManager.instance.EventManager.onPlacingModeEnded();
     }
 }

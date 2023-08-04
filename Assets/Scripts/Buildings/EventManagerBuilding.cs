@@ -13,6 +13,6 @@ public class EventManagerBuilding : EventManager
     public delegate void BuildingModeReleased();
     public BuildingModeReleased onBuildingModeReleased;
 
-    public delegate void PlacingModeActivated();
-    public PlacingModeActivated onPlacingModeActivated;
+    public delegate void PlacedBuilding();
+    public PlacedBuilding onPlacedBuilding;
 }

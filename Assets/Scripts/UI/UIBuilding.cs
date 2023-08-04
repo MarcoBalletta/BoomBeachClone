@@ -7,13 +7,9 @@ public class UIBuilding : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Building building;
 
-    public void ButtonSelected()
-    {
-        GameManager.instance.EventManager.onBuildingSelected(building);
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        GameManager.instance.EventManager.onBuildingSelected(building);
+        if(GameManager.instance.StateManager.CurrentState.nameOfState == Constants.STATE_PLACING)
+            GameManager.instance.EventManager.onBuildingButtonClick(building);
     }
 }

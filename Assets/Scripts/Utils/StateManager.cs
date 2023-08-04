@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
-    protected State currentState;
+    private State currentState;
     protected Dictionary<string, State> listOfStates = new Dictionary<string, State>();
+
+    public State CurrentState { get => currentState; }
 
     protected virtual void SetupStates(){ }
 

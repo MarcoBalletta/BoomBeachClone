@@ -7,11 +7,14 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     protected BoxCollider coll;
-    protected Tile tileUnder;
+    private Tile tileUnder;
     [SerializeField] protected LayerMask layerMask;
     protected StateManagerBuilding stateManager;
     protected EventManagerBuilding eventManager;
+    [SerializeField] protected GameObject panelUIBuilding;
+    
     public EventManagerBuilding EventManager { get => eventManager; set => eventManager = value; }
+    public Tile TileUnder { get => tileUnder; }
 
     protected virtual void Awake()
     {
@@ -36,7 +39,8 @@ public class Building : MonoBehaviour
 
     protected void StartBuildingMode()
     {
-        Debug.Log("StartBuildingMode");
+        //show UI 
+        panelUIBuilding.SetActive(true);
     }
 
     protected void CheckTileUnderBuilding()
@@ -76,10 +80,27 @@ public class Building : MonoBehaviour
             GameManager.instance.EventManager.onBuildingPlaced(this, tileUnder);
             stateManager.ChangeState(Constants.STATE_PLACED);
         }
-        else
-        {
-            //can't place building
-            Destroy(gameObject);
-        }
+        //else
+        //{
+        //    //can't place building
+        //    Destroy(gameObject);
+        //}
+    }
+
+    public void DeselectedBuilding()
+    {
+        if (tileUnder)
+            tileUnder.DeselectedTile();
+        Destroy(gameObject);
+    }
+
+    private void RotateBuilding(float angle)
+    {
+        //lerp rotation building when click on rotation button
+    }
+
+    protected virtual void SetupUIAfterPlacingBuilding()
+    {
+        panelUIBuilding.SetActive(false);
     }
 }
