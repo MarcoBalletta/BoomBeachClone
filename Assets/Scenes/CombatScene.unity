@@ -1353,7 +1353,7 @@ MonoBehaviour:
   maxZoomValue: 80
   minZoomValue: 20
   panSpeed: 0.1
-  timeSecondClick: 0.5
+  timeSecondClick: 0.1
   cameraOffsetFromPivot: {x: 4.841614, y: 24.397572, z: 50.47715}
   pivot: {fileID: 154491644}
 --- !u!1 &1117070654

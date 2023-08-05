@@ -280,7 +280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.767}
+  m_AnchoredPosition: {x: 0, y: 3.7670288}
   m_SizeDelta: {x: 2, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2041546060078896864
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7236328426380338944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecbd34841484edc459a564f2aad64c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  border: {fileID: 8807786931026958528}
   placingButton: {fileID: 5351775430537174537}
   rotateButton: {fileID: 4233912963487225437}
   deselectButton: {fileID: 1277020462047890681}

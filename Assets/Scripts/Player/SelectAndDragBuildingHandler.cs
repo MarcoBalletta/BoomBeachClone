@@ -24,6 +24,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         input.PlayerInput.MouseClick.performed += MouseClicked;
         input.PlayerInput.MouseClick.canceled += MouseReleased;
         GameManager.instance.EventManager.onBuildingButtonClick += SpawnBuildingSelected;
+        GameManager.instance.EventManager.onBuildingClick += SelectBuilding;
         GameManager.instance.EventManager.onBuildingDeselectButtonClick += DeselectBuilding;
     }
 
@@ -31,6 +32,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
     {
         input.PlayerInput.MouseClick.performed -= MouseClicked;
         input.PlayerInput.MouseClick.canceled -= MouseReleased;
+        GameManager.instance.EventManager.onBuildingClick -= SelectBuilding;
         GameManager.instance.EventManager.onBuildingButtonClick -= SpawnBuildingSelected;
         GameManager.instance.EventManager.onBuildingDeselectButtonClick -= DeselectBuilding;
     }
@@ -39,12 +41,14 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
     {
         var buildingToSpawn = Instantiate(building, Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) , Quaternion.identity);
         SelectBuilding(buildingToSpawn);
+        GameManager.instance.EventManager.onBuildingClick(selectedBuilding);
     }
 
     private void SelectBuilding(Building building)
     {
         selectedBuilding = building;
         clickedOnSelectedBuilding = true;
+        building.StartBuildingMode();
     }
 
     private void Update()
@@ -114,7 +118,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
             {
                 if (building == selectedBuilding || selectedBuilding == null)
                 {
-                    SelectBuilding(building);
+                    GameManager.instance.EventManager.onBuildingClick(building);
                     GameManager.instance.EventManager.onDraggingBuilding();
                 }
             }

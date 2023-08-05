@@ -21,6 +21,8 @@ public class HealthComponentDefense : HealthComponent
     private void OnDisable()
     {
         defense.EventManager.onSetupBuilding -= SetupHealthComponent;
+        defense.EventManager.onBuildingModeActivated -= HideHealthUI;
+        defense.EventManager.onPlacedBuilding -= ShowHealthUI;
     }
 
     public override void Damage(float damage)
@@ -33,7 +35,6 @@ public class HealthComponentDefense : HealthComponent
     protected override void Dead()
     {
         base.Dead();
-        Debug.Log("Dead defense");
         defense.EventManager.onDead(defense);
         Destroy(gameObject, 0.1f);
     }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlacingUI : MonoBehaviour
 {
     private Building building;
+    [SerializeField] private GameObject border;
     [SerializeField] private Button placingButton;
     [SerializeField] private Button rotateButton;
     [SerializeField] private Button deselectButton;
@@ -25,14 +26,16 @@ public class PlacingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.EventManager.onBuildingModeStarted += ShowUI;
+        //GameManager.instance.EventManager.onBuildingModeStarted += ShowUI;
         building.EventManager.onPlacedBuilding += HideUI;
+        building.EventManager.onBuildingModeActivated += ShowUI;
         //building.EventManager.onPlacedBuilding += PlacedBuilding;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.EventManager.onBuildingModeStarted -= ShowUI;
+        //GameManager.instance.EventManager.onBuildingModeStarted -= ShowUI;
+        building.EventManager.onBuildingModeActivated -= ShowUI;
         building.EventManager.onPlacedBuilding -= HideUI;
         //building.EventManager.onPlacedBuilding -= PlacedBuilding;
     }
@@ -54,7 +57,7 @@ public class PlacingUI : MonoBehaviour
 
     private void HideUI()
     {
-        gameObject.SetActive(false);
+        border.SetActive(false);
     }
 
     //private void PlacedBuilding()
@@ -64,6 +67,6 @@ public class PlacingUI : MonoBehaviour
 
     private void ShowUI()
     {
-        gameObject.SetActive(true);
+        border.SetActive(true);
     }
 }

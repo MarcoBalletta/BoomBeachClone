@@ -39,9 +39,7 @@ public class Bullet : MonoBehaviour
         if(collision.GetComponent<Collider>().TryGetComponent(out IDamageable damagedEntity))
         {
             damagedEntity.Damage(firePower);
-            //Debug.Log("Hit entity : " + damagedEntity.name);
         }
-        Debug.Log("Hit : " + collision.name);
         Destroy(gameObject);
     }
 }

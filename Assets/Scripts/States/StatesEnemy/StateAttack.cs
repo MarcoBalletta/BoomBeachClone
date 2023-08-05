@@ -12,7 +12,6 @@ public class StateAttack : State
     public override void OnEnter()
     {
         base.OnEnter();
-        Debug.Log("State attack");
         (stateManager as StateManagerEnemy).EventManager?.onAttackStarted();
     }
 

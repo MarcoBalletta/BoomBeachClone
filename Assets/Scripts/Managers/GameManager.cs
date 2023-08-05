@@ -37,11 +37,24 @@ public class GameManager : Singleton<GameManager>
         gridManager = GetComponentInChildren<GridManager>();
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponentInChildren<Spawner>();
+    }
+
+    private void OnEnable()
+    {
         eventManager.onBuildingDeselectButtonClick += StartPlacingMode;
-        eventManager.onBuildingButtonClick += StartBuildingPlacingMode;
+        eventManager.onBuildingClick += StartBuildingPlacingMode;
         eventManager.onBuildingPlaced += PlaceBuilding;
         eventManager.onSimulationModeStarted += BakeNavMesh;
         eventManager.onSpawnEnemy += SpawnedEnemy;
+    }
+
+    private void OnDisable()
+    {
+        eventManager.onBuildingDeselectButtonClick -= StartPlacingMode;
+        eventManager.onBuildingClick -= StartBuildingPlacingMode;
+        eventManager.onBuildingPlaced -= PlaceBuilding;
+        eventManager.onSimulationModeStarted -= BakeNavMesh;
+        eventManager.onSpawnEnemy -= SpawnedEnemy;
     }
 
     private void Start()

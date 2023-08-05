@@ -25,22 +25,22 @@ public class Building : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        eventManager.onBuildingModeActivated += StartBuildingMode;
+        //eventManager.onBuildingModeActivated += StartBuildingMode;
         eventManager.onBuildingModeUpdate += CheckTileUnderBuilding;
         eventManager.onBuildingModeReleased += PlaceBuildingIfPossible;
     }
 
     protected virtual void OnDisable()
     {
-        eventManager.onBuildingModeActivated -= StartBuildingMode;
+        //eventManager.onBuildingModeActivated -= StartBuildingMode;
         eventManager.onBuildingModeUpdate -= CheckTileUnderBuilding;
         eventManager.onBuildingModeReleased -= PlaceBuildingIfPossible;
     }
 
-    protected void StartBuildingMode()
+    public void StartBuildingMode()
     {
         //show UI 
-        panelUIBuilding.SetActive(true);
+        stateManager.ChangeState(Constants.STATE_PLACING);
     }
 
     protected void CheckTileUnderBuilding()

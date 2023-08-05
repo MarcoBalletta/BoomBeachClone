@@ -45,13 +45,11 @@ public class Enemy : MonoBehaviour
 
     private void StartResearch()
     {
-        Debug.Log("StartResearch");
         stateManager.ChangeState(Constants.STATE_RESEARCH);
     }
 
     private void SetTargetDefense(Defense building)
     {
-        Debug.Log("Set target");
         targetBuilding = building;
         stateManager.ChangeState(Constants.STATE_MOVEMENT);
     }
@@ -69,7 +67,6 @@ public class Enemy : MonoBehaviour
 
     private void StartAttacking()
     {
-        Debug.Log("Start attacking");
         stateManager.ChangeState(Constants.STATE_ATTACK);
     }
 }

@@ -70,7 +70,6 @@ public class BuildingAttackComponent : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("SpawnBullet");
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.LookRotation(target.transform.position + target.transform.up - transform.position, transform.up));
         bullet.Setup(firePower, ((target.transform.position + target.transform.up) - bullet.transform.position));
     }

@@ -56,7 +56,6 @@ public class EnemyMovementComponent : MonoBehaviour
 
     private IEnumerator CheckDistance()
     {
-        Debug.Log("Check distance");
         while(Vector3.Distance(transform.position, agent.destination) >= rangeToAttack)
         {
             yield return new WaitForSeconds(Time.deltaTime);
