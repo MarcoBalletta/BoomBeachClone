@@ -74,7 +74,7 @@ public class BuildingAttackComponent : MonoBehaviour
         bullet.Setup(firePower, ((target.transform.position + target.transform.up) - bullet.transform.position));
     }
 
-    private void SearchNextTarget()
+    protected virtual void SearchNextTarget()
     {
         //await Task.Delay((int)Time.deltaTime * 1000);
         if (defense.Targets.Count == 0) return;

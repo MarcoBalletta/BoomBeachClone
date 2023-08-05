@@ -49,10 +49,28 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                     ""name"": ""Zoom"",
                     ""type"": ""Value"",
                     ""id"": ""cd210cb9-e989-4672-bb48-5f11788685fd"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SecondaryFingerPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""c75a2458-e62e-471d-aba9-e36cb4f096dd"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SecondaryTouchContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""72698e22-f389-4326-9d99-f456fbfe5e2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -60,6 +78,17 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""924766c3-4165-49ae-b55a-61ba780ace00"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""927e211f-4785-4916-9fde-18607134ac64"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -80,12 +109,45 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""21579cf0-7302-49a6-b274-9dbf9c7c3ad5"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""895d74de-eb10-43df-90ed-2abc0c189b62"",
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""733204ea-642d-4acb-a0e8-473b1163f2af"",
+                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondaryFingerPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a25abf25-3799-4e3b-b05c-6c227cfa7bf5"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondaryTouchContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -99,6 +161,8 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
         m_PlayerInput_MouseClick = m_PlayerInput.FindAction("MouseClick", throwIfNotFound: true);
         m_PlayerInput_MousePosition = m_PlayerInput.FindAction("MousePosition", throwIfNotFound: true);
         m_PlayerInput_Zoom = m_PlayerInput.FindAction("Zoom", throwIfNotFound: true);
+        m_PlayerInput_SecondaryFingerPosition = m_PlayerInput.FindAction("SecondaryFingerPosition", throwIfNotFound: true);
+        m_PlayerInput_SecondaryTouchContact = m_PlayerInput.FindAction("SecondaryTouchContact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +225,8 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_MouseClick;
     private readonly InputAction m_PlayerInput_MousePosition;
     private readonly InputAction m_PlayerInput_Zoom;
+    private readonly InputAction m_PlayerInput_SecondaryFingerPosition;
+    private readonly InputAction m_PlayerInput_SecondaryTouchContact;
     public struct PlayerInputActions
     {
         private @InputPlayer m_Wrapper;
@@ -168,6 +234,8 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
         public InputAction @MouseClick => m_Wrapper.m_PlayerInput_MouseClick;
         public InputAction @MousePosition => m_Wrapper.m_PlayerInput_MousePosition;
         public InputAction @Zoom => m_Wrapper.m_PlayerInput_Zoom;
+        public InputAction @SecondaryFingerPosition => m_Wrapper.m_PlayerInput_SecondaryFingerPosition;
+        public InputAction @SecondaryTouchContact => m_Wrapper.m_PlayerInput_SecondaryTouchContact;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +254,12 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                 @Zoom.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnZoom;
+                @SecondaryFingerPosition.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryFingerPosition;
+                @SecondaryFingerPosition.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryFingerPosition;
+                @SecondaryFingerPosition.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryFingerPosition;
+                @SecondaryTouchContact.started -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryTouchContact;
+                @SecondaryTouchContact.performed -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryTouchContact;
+                @SecondaryTouchContact.canceled -= m_Wrapper.m_PlayerInputActionsCallbackInterface.OnSecondaryTouchContact;
             }
             m_Wrapper.m_PlayerInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +273,12 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @SecondaryFingerPosition.started += instance.OnSecondaryFingerPosition;
+                @SecondaryFingerPosition.performed += instance.OnSecondaryFingerPosition;
+                @SecondaryFingerPosition.canceled += instance.OnSecondaryFingerPosition;
+                @SecondaryTouchContact.started += instance.OnSecondaryTouchContact;
+                @SecondaryTouchContact.performed += instance.OnSecondaryTouchContact;
+                @SecondaryTouchContact.canceled += instance.OnSecondaryTouchContact;
             }
         }
     }
@@ -208,5 +288,7 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
         void OnMouseClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnSecondaryFingerPosition(InputAction.CallbackContext context);
+        void OnSecondaryTouchContact(InputAction.CallbackContext context);
     }
 }

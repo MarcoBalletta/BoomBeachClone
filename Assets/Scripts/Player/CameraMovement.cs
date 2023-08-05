@@ -13,6 +13,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float minZoomValue;
     [SerializeField] private float panSpeed;
     [SerializeField] private float timeSecondClick;
+    [SerializeField] private float zoomPinchSpeed;
     private bool canMoveCamera = true;
     private bool isPanning = false;
     private bool firstClick = false;
@@ -20,9 +21,11 @@ public class CameraMovement : MonoBehaviour
     private Coroutine secondTimerCoroutine;
     [SerializeField] private Vector3 cameraOffsetFromPivot;
     [SerializeField] private Transform pivot;
-    private float direction;
     private Vector2 lastPositionMouse;
-    
+    private bool isSecondaryTouch = false;
+    private float distance;
+    private float previousDistance = 0;
+
     private void Awake()
     {
         input = new InputPlayer();
@@ -33,9 +36,12 @@ public class CameraMovement : MonoBehaviour
     {
         GameManager.instance.EventManager.onDraggingBuilding += CannotMoveCamera;
         GameManager.instance.EventManager.onStopDraggingBuilding += CanMoveCamera;
-        input.PlayerInput.MouseClick.performed += PressMouse;
+        input.PlayerInput.MouseClick.started += PressMouse;
         input.PlayerInput.MouseClick.canceled += ReleaseMouse;
+        input.PlayerInput.SecondaryTouchContact.started += SecondaryTouchPressed;
+        input.PlayerInput.SecondaryTouchContact.canceled += SecondaryTouchReleased;
     }
+
 
 
     private void OnDisable()
@@ -56,7 +62,7 @@ public class CameraMovement : MonoBehaviour
         if (!canMoveCamera) return;
         PanCamera();
         Zoom();
-        lastPositionMouse = Mouse.current.position.ReadValue();
+        lastPositionMouse = input.PlayerInput.MousePosition.ReadValue<Vector2>();
     }
 
     private void PressMouse(InputAction.CallbackContext context)
@@ -88,7 +94,6 @@ public class CameraMovement : MonoBehaviour
 
     private void ReleaseMouse(InputAction.CallbackContext obj)
     {
-        //Debug.Log("Release mouse");
         if (!firstClick)
         {
             firstClick = true;
@@ -116,14 +121,7 @@ public class CameraMovement : MonoBehaviour
         if (isPanning)
         {
             var mouseDifference = (Mouse.current.position.ReadValue().x - lastPositionMouse.x);
-            //if ( mouseDifference < 0)
-            //    direction = -1;
-            //else if (mouseDifference > 0)
-            //    direction = 1;
-            //else
-            //    direction = 0;
             Quaternion rotation = pivot.transform.rotation;
-            //rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y + panSpeed * direction * Mathf.Abs(mouseDifference), rotation.eulerAngles.z);
             rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y + panSpeed * mouseDifference, rotation.eulerAngles.z);
             pivot.rotation = rotation;
         }
@@ -131,7 +129,28 @@ public class CameraMovement : MonoBehaviour
 
     private void Zoom()
     {
-        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(input.PlayerInput.Zoom.ReadValue<Vector2>().y, -1,1), minZoomValue, maxZoomValue);
+        //Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(input.PlayerInput.Zoom.ReadValue<Vector2>().y, -1,1), minZoomValue, maxZoomValue);
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(GetZoomValue(), -1,1), minZoomValue, maxZoomValue);
+    }
+
+    private float GetZoomValue()
+    {
+        if(SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            //touch device
+            if (isSecondaryTouch)
+            {
+                return GetTouchPinchValue();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return input.PlayerInput.Zoom.ReadValue<Vector2>().y;
+        }
     }
 
     private void AlignCameraWithCenterOfGrid()
@@ -140,4 +159,36 @@ public class CameraMovement : MonoBehaviour
         transform.position = cameraOffsetFromPivot;
         transform.LookAt(pivot.transform.position);
     }
+
+    #region Touchscreen
+    private void SecondaryTouchReleased(InputAction.CallbackContext obj)
+    {
+        isSecondaryTouch = false;
+    }
+
+    private void SecondaryTouchPressed(InputAction.CallbackContext obj)
+    {
+        isSecondaryTouch = true;
+        distance = 0;
+    }
+
+    private float GetTouchPinchValue()
+    {
+        distance = Vector2.Distance(input.PlayerInput.MousePosition.ReadValue<Vector2>(), input.PlayerInput.SecondaryFingerPosition.ReadValue<Vector2>());
+        float mult = 0;
+        //zoom out
+        if(distance > previousDistance)
+        {
+            mult = 1;
+        }
+        //zoom in
+        else if(distance < previousDistance)
+        {
+            mult = -1;
+        }
+        previousDistance = distance;
+        return zoomPinchSpeed * mult;
+    }
+
+    #endregion
 }

@@ -7,10 +7,10 @@ using UnityEngine;
 public class Defense : Building
 {
 
-    [SerializeField] private DefenseData data;
-    private List<Enemy> targets = new List<Enemy>();
-    private new StateManagerDefense stateManager;
-    private new EventManagerDefense eventManager;
+    [SerializeField] protected DefenseData data;
+    protected List<Enemy> targets = new List<Enemy>();
+    protected new StateManagerDefense stateManager;
+    protected new EventManagerDefense eventManager;
 
     public new EventManagerDefense EventManager { get => eventManager; set => eventManager = value; }
     public List<Enemy> Targets { get => targets; set => targets = value; }
@@ -49,7 +49,7 @@ public class Defense : Building
         }
     }
 
-    public Enemy GetTarget()
+    public virtual Enemy GetTarget()
     {
         if (targets.Count == 0) return null;
         return targets[0];
