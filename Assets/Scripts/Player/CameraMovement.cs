@@ -88,7 +88,7 @@ public class CameraMovement : MonoBehaviour
 
     private void ReleaseMouse(InputAction.CallbackContext obj)
     {
-        Debug.Log("Release mouse");
+        //Debug.Log("Release mouse");
         if (!firstClick)
         {
             firstClick = true;
