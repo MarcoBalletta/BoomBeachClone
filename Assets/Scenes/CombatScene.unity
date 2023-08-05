@@ -428,6 +428,8 @@ MonoBehaviour:
   buildingButtonsPanel: {fileID: 16599606}
   simulationModeButton: {fileID: 1813093085}
   speedUpButton: {fileID: 449692976}
+  retryButton: {fileID: 747108177}
+  backToMenuButton: {fileID: 1626931468}
   EndGamePanel: {fileID: 501161230}
   endGameText: {fileID: 2127749947}
 --- !u!4 &292258885

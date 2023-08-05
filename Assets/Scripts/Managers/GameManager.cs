@@ -81,7 +81,7 @@ public class GameManager : Singleton<GameManager>
     {
         defenses.Remove(defense);
         defenses.TrimExcess();
-        if (defense == headquarterInstance)
+        if (defense != null && defense == headquarterInstance)
             eventManager.onEndMatch(false);
     }
 
@@ -92,7 +92,7 @@ public class GameManager : Singleton<GameManager>
 
     public bool CanPlaceOtherBuildings()
     {
-        return actualPlacedBuildings < maxPlaceableBuildings;
+        return actualPlacedBuildings < maxPlaceableBuildings + 1;
     }
 
     public Vector3 GetCenterGrid()
@@ -131,5 +131,10 @@ public class GameManager : Singleton<GameManager>
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
     }
 }

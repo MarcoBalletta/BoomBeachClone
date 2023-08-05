@@ -81,7 +81,7 @@ public class EnemyAttackComponent : MonoBehaviour
 
     private void TargetDefenseDead(Defense defense)
     {
-        StopCoroutine(shootRoutine);
+        if(shootRoutine != null) StopCoroutine(shootRoutine);
         enemyController.EventManager.onAttackEnded();
     }
 

@@ -37,7 +37,13 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
 
     private void SpawnBuildingSelected(Building building)
     {
-        selectedBuilding = Instantiate(building, Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) , Quaternion.identity);
+        var buildingToSpawn = Instantiate(building, Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) , Quaternion.identity);
+        SelectBuilding(buildingToSpawn);
+    }
+
+    private void SelectBuilding(Building building)
+    {
+        selectedBuilding = building;
         clickedOnSelectedBuilding = true;
     }
 
@@ -106,9 +112,9 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out Building building))
             {
-                if (building == selectedBuilding)
+                if (building == selectedBuilding || selectedBuilding == null)
                 {
-                    clickedOnSelectedBuilding = true;
+                    SelectBuilding(building);
                     GameManager.instance.EventManager.onDraggingBuilding();
                 }
             }

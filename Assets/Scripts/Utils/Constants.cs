@@ -19,4 +19,7 @@ public class Constants
     //End game texts
     public const string WIN_TEXT = "You won!";
     public const string LOSE_TEXT = "You lost!";
+    //Scenes names
+    public const string MENU_SCENE_NAME = "CombatScene";
+    public const string COMBAT_SCENE_NAME = "MenuScene";
 }
