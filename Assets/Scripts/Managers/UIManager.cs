@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject buildingButtonsPanel;
     [SerializeField] private Button simulationModeButton;
     [SerializeField] private Button speedUpButton;
+    [SerializeField] private Button retryButton;
+    [SerializeField] private Button backToMenuButton;
+    [SerializeField] private GameObject EndGamePanel;
+    [SerializeField] private TextMeshProUGUI endGameText;
 
     private void Awake()
     {
         simulationModeButton.onClick.AddListener(() => GameManager.instance.PlayModeActivated());
+        retryButton.onClick.AddListener(() => GameManager.instance.ReloadScene());
+        //back to menu click add listener
     }
 
     private void OnEnable()
@@ -20,6 +27,9 @@ public class UIManager : MonoBehaviour
         GameManager.instance.EventManager.onPlacingModeStarted += ShowPlayButton;
         GameManager.instance.EventManager.onPlacingModeEnded += DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeEnded += HidePlayButton;
+        GameManager.instance.EventManager.onSimulationModeStarted += ShowSpeedUpButton;
+        GameManager.instance.EventManager.onSimulationModeEnded += HideSpeedUpButton;
+        GameManager.instance.EventManager.onEndMatch += EndGame;
     }
 
     private void OnDisable()
@@ -28,6 +38,8 @@ public class UIManager : MonoBehaviour
         GameManager.instance.EventManager.onPlacingModeEnded -= DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeStarted -= ShowPlayButton;
         GameManager.instance.EventManager.onPlacingModeEnded -= HidePlayButton;
+        GameManager.instance.EventManager.onSimulationModeStarted -= ShowSpeedUpButton;
+        GameManager.instance.EventManager.onEndMatch -= EndGame;
     }
 
     #region Building buttons panel
@@ -45,6 +57,7 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    #region PlayButton
     private void HidePlayButton()
     {
         simulationModeButton.gameObject.SetActive(false);
@@ -53,5 +66,33 @@ public class UIManager : MonoBehaviour
     private void ShowPlayButton()
     {
         simulationModeButton.gameObject.SetActive(true);
+    }
+    #endregion
+
+    #region SpeedUpButton
+    private void HideSpeedUpButton()
+    {
+        speedUpButton.gameObject.SetActive(false);
+    }
+
+    private void ShowSpeedUpButton()
+    {
+        speedUpButton.gameObject.SetActive(true);
+    }
+    #endregion
+
+    private void EndGame(bool result)
+    {
+        HideSpeedUpButton();
+        if (result)
+        {
+            endGameText.text = Constants.WIN_TEXT;
+        }
+        else
+        {
+            endGameText.text = Constants.LOSE_TEXT;
+        }
+
+        EndGamePanel.SetActive(true);
     }
 }

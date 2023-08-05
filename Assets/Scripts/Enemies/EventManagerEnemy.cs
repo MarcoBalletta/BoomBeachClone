@@ -31,4 +31,7 @@ public class EventManagerEnemy : EventManager
 
     public delegate void OnDead(Enemy enemy);
     public OnDead onDead;
+
+    public delegate void OnEndGame(bool result);
+    public OnEndGame onEndGame;
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(EventManagerGameManager))]
 [RequireComponent(typeof(StateManagerGameManager))]
@@ -20,7 +21,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Defense headquarterInstance;
     private int actualPlacedBuildings;
     private List<Defense> defenses = new List<Defense>();
-    private List<Enemy> enemies;
+    private List<Enemy> enemies = new List<Enemy>();
 
     public EventManagerGameManager EventManager { get => eventManager; }
     public Spawner Spawner { get => spawner; }
@@ -80,8 +81,8 @@ public class GameManager : Singleton<GameManager>
     {
         defenses.Remove(defense);
         defenses.TrimExcess();
-        if (defense == headquarterInstance) 
-            Debug.Log("Lose");
+        if (defense == headquarterInstance)
+            eventManager.onEndMatch(false);
     }
 
     private void StartPlacingMode()
@@ -123,7 +124,12 @@ public class GameManager : Singleton<GameManager>
         {
             enemies.Remove(enemy);
             if (enemies.Count == 0)
-                Debug.Log("Win");
+                eventManager.onEndMatch(true);
         }
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -16,4 +16,7 @@ public class Constants
     public const string STATE_RESEARCH = "Research";
     public const string STATE_MOVEMENT = "Movement";
     public const string STATE_ATTACK = "Attack";
+    //End game texts
+    public const string WIN_TEXT = "You won!";
+    public const string LOSE_TEXT = "You lost!";
 }
