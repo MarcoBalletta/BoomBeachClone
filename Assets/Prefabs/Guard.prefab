@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1441652483902492843}
   - component: {fileID: 7804729684361403581}
   - component: {fileID: 7957692181600364430}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AttackComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawn: {fileID: 265656661636313474}
+  archTrajectory: 0
 --- !u!1 &6443706740159831875
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ GameObject:
   - component: {fileID: 414803658297993209}
   - component: {fileID: 2215964522833834516}
   m_Layer: 10
-  m_Name: DefenseBase
+  m_Name: Guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

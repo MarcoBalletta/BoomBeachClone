@@ -24,6 +24,7 @@ public class EnemyMovementComponent : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.instance.EventManager.onSpeedUpToggle += SetSpeedAgent;
         enemyController.EventManager.onMovementStarted += MoveToDestination;
         enemyController.EventManager.onSetupEnemy += SetupMovementComponent;
     }
@@ -38,17 +39,17 @@ public class EnemyMovementComponent : MonoBehaviour
     {
         rangeToAttack = data.range;
         speed = data.speed;
-        SetSpeedAgent();
+        SetSpeedAgent(GameManager.instance.SimulationSpeed);
     }
 
-    private void SetSpeedAgent()
+    private void SetSpeedAgent(int value)
     {
-        agent.speed = speed;
+        agent.speed = speed * value;
     }
 
     private void MoveToDestination()
     {
-        SetSpeedAgent();
+        SetSpeedAgent(GameManager.instance.SimulationSpeed);
         ResumeAgent();
         agent.destination = enemyController.TargetBuilding.transform.position;
         StartCoroutine(CheckDistance());

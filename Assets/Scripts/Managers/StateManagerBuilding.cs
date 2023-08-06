@@ -8,7 +8,7 @@ public class StateManagerBuilding : StateManager
 
     protected EventManagerBuilding eventManagerBuilding;
 
-    public EventManagerBuilding EventManagerBuilding { get => eventManagerBuilding; }
+    public virtual EventManagerBuilding EventManagerBuilding { get => eventManagerBuilding; }
 
     protected override void SetupStates()
     {

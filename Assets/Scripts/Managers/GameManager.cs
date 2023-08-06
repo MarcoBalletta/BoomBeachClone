@@ -17,12 +17,11 @@ public class GameManager : Singleton<GameManager>
     private int simulationSpeed = 1;
     [Range(1,10)]
     [SerializeField] private int maxPlaceableBuildings = 1;
-    [SerializeField] private Defense headquarterPrefab;
     [SerializeField] private Defense headquarterInstance;
     private int actualPlacedBuildings;
     private List<Defense> defenses = new List<Defense>();
     private List<Enemy> enemies = new List<Enemy>();
-
+    
     public EventManagerGameManager EventManager { get => eventManager; }
     public Spawner Spawner { get => spawner; }
     public List<Defense> Defenses { get => defenses; }
@@ -41,25 +40,47 @@ public class GameManager : Singleton<GameManager>
 
     private void OnEnable()
     {
+        eventManager.onSetupInitialData += SetupGameManagerData;
         eventManager.onBuildingDeselectButtonClick += StartPlacingMode;
         eventManager.onBuildingClick += StartBuildingPlacingMode;
         eventManager.onBuildingPlaced += PlaceBuilding;
         eventManager.onSimulationModeStarted += BakeNavMesh;
         eventManager.onSpawnEnemy += SpawnedEnemy;
+        eventManager.onDestroyableDestroyed += BakeNavMesh;
     }
+
+
 
     private void OnDisable()
     {
+        eventManager.onSetupInitialData -= SetupGameManagerData;
         eventManager.onBuildingDeselectButtonClick -= StartPlacingMode;
         eventManager.onBuildingClick -= StartBuildingPlacingMode;
         eventManager.onBuildingPlaced -= PlaceBuilding;
         eventManager.onSimulationModeStarted -= BakeNavMesh;
         eventManager.onSpawnEnemy -= SpawnedEnemy;
+        eventManager.onDestroyableDestroyed -= BakeNavMesh;
     }
 
     private void Start()
     {
+        if(DataForGameHandler.instance != null)
+            eventManager.onSetupInitialData(DataForGameHandler.instance.DataGame);
         RandomPlaceHeadquarter();
+    }
+
+    private void SetupGameManagerData(DataGame data)
+    {
+        maxPlaceableBuildings = data.numberOfPlaceableBuildings;
+    }
+
+    public void ToggleSpeedUpButton()
+    {
+        if (simulationSpeed == 1)
+            simulationSpeed = 2;
+        else
+            simulationSpeed = 1;
+        eventManager.onSpeedUpToggle(simulationSpeed);
     }
 
     private void PlaceBuilding(Building building, Tile tile)
@@ -78,6 +99,11 @@ public class GameManager : Singleton<GameManager>
     private void StartBuildingPlacingMode(Building building)
     {
         stateManager.ChangeState(Constants.STATE_BUILDING_MODE);
+    }
+
+    public bool IsGameStarted()
+    {
+        return stateManager.CurrentState.nameOfState == Constants.STATE_SIMULATION;
     }
 
     public void PlayModeActivated()
@@ -150,4 +176,4 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
     }
-}
+}   

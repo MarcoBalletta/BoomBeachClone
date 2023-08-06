@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject buildingButtonsPanel;
     [SerializeField] private Button simulationModeButton;
     [SerializeField] private Button speedUpButton;
+    [SerializeField] private TextMeshProUGUI speedUpValue;
     [SerializeField] private Button retryButton;
     [SerializeField] private Button backToMenuButton;
     [SerializeField] private GameObject EndGamePanel;
@@ -18,6 +20,7 @@ public class UIManager : MonoBehaviour
     {
         simulationModeButton.onClick.AddListener(() => GameManager.instance.PlayModeActivated());
         retryButton.onClick.AddListener(() => GameManager.instance.ReloadScene());
+        speedUpButton.onClick.AddListener(() => GameManager.instance.ToggleSpeedUpButton());
         //back to menu click add listener
     }
 
@@ -25,6 +28,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.instance.EventManager.onPlacingModeStarted += ActivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeStarted += ShowPlayButton;
+        GameManager.instance.EventManager.onSpeedUpToggle += SetSpeedVelocityValue;
         GameManager.instance.EventManager.onPlacingModeEnded += DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeEnded += HidePlayButton;
         GameManager.instance.EventManager.onSimulationModeStarted += ShowSpeedUpButton;
@@ -32,8 +36,11 @@ public class UIManager : MonoBehaviour
         GameManager.instance.EventManager.onEndMatch += EndGame;
     }
 
+
+
     private void OnDisable()
     {
+        GameManager.instance.EventManager.onSpeedUpToggle -= SetSpeedVelocityValue;
         GameManager.instance.EventManager.onPlacingModeStarted -= ActivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeEnded -= DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeStarted -= ShowPlayButton;
@@ -80,6 +87,11 @@ public class UIManager : MonoBehaviour
         speedUpButton.gameObject.SetActive(true);
     }
     #endregion
+
+    private void SetSpeedVelocityValue(int value)
+    {
+        speedUpValue.text = value.ToString();
+    }
 
     private void EndGame(bool result)
     {

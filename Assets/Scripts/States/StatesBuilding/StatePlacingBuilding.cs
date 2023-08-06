@@ -12,7 +12,10 @@ public class StatePlacingBuilding : State
     public override void OnEnter()
     {
         base.OnEnter();
-        (stateManager as StateManagerBuilding).EventManagerBuilding?.onBuildingModeActivated();
+        if ((stateManager as StateManagerBuilding).EventManagerBuilding?.onBuildingModeActivated != null)
+            (stateManager as StateManagerBuilding).EventManagerBuilding?.onBuildingModeActivated();
+        else
+            Debug.Log("Empty");
     }
 
     public override void OnUpdate()

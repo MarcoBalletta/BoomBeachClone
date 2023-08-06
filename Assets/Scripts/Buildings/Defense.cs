@@ -14,6 +14,7 @@ public class Defense : Building
 
     public new EventManagerDefense EventManager { get => eventManager; set => eventManager = value; }
     public List<Enemy> Targets { get => targets; set => targets = value; }
+    protected DefenseData Data { get => data; }
 
     protected override void Awake()
     {
@@ -35,12 +36,12 @@ public class Defense : Building
         eventManager.onFoundEnemy -= AddEnemyToList;
     }
 
-    private void Start()
+    protected void Start()
     {
         eventManager.onSetupBuilding(data);
     }
 
-    public void AddEnemyToList(Enemy enemy)
+    protected virtual void AddEnemyToList(Enemy enemy)
     {
         if (!targets.Contains(enemy))
         {
@@ -48,6 +49,15 @@ public class Defense : Building
             enemy.EventManager.onDead += TargetKilled;
         }
     }
+
+    //protected virtual void RemoveEnemyFromList(Enemy enemy)
+    //{
+    //    if (!targets.Contains(enemy))
+    //    {
+    //        targets.Remove(enemy);
+    //        enemy.EventManager.onDead -= TargetKilled;
+    //    }
+    //}
 
     public virtual Enemy GetTarget()
     {
@@ -60,9 +70,4 @@ public class Defense : Building
         targets.Remove(enemy);
         targets.TrimExcess();
     }
-
-    //public void Setup()
-    //{
-    //    coll.radius = data.range;
-    //}
 }

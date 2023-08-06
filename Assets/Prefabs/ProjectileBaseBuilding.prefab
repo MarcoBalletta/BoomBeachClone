@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4609662653761634432}
   - component: {fileID: 4656680103585594346}
   m_Layer: 8
-  m_Name: ProjectileBase
+  m_Name: ProjectileBaseBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,4 +127,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb949d024d840c84e806b6f924f6d7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 25
+  autoDestructionTime: 6

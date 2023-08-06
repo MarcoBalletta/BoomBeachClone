@@ -5,10 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(EventManagerDefense))]
 public class StateManagerDefense : StateManagerBuilding
 {
-
-    protected new EventManagerDefense eventManagerBuilding;
-
-    public new EventManagerDefense EventManagerBuilding { get => eventManagerBuilding; }
+    public new EventManagerDefense EventManagerBuilding { get => (eventManagerBuilding as EventManagerDefense); }
 
     protected override void SetupStates()
     {

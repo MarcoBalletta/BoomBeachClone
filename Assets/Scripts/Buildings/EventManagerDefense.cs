@@ -8,6 +8,9 @@ public class EventManagerDefense : EventManagerBuilding
     public delegate void OnFoundEnemy(Enemy enemy);
     public OnFoundEnemy onFoundEnemy;
 
+    public delegate void OnLostEnemy(Enemy enemy);
+    public OnLostEnemy onLostEnemy;
+
     public delegate void OnEnemyKilled(Enemy enemy);
     public OnEnemyKilled onEnemyKilled;
 

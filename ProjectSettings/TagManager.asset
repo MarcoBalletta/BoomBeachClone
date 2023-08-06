@@ -13,12 +13,12 @@ TagManager:
   - UI
   - DraggableLayer
   - Tile
-  - Bullet
+  - BulletBuilding
   - Enemy
   - Building
-  - 
-  - 
-  - 
+  - Clickable
+  - ResearchColliders
+  - BulletEnemy
   - 
   - 
   - 

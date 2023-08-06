@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: 8229809963137757692}
   - component: {fileID: 7236328426380338944}
   - component: {fileID: 4985119547155884191}
+  - component: {fileID: 8851541045220941974}
   m_Layer: 5
   m_Name: PlacingUI
   m_TagString: Untagged
@@ -281,7 +282,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 3.7670288}
-  m_SizeDelta: {x: 2, y: 0.2}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2041546060078896864
 Canvas:
@@ -360,6 +361,18 @@ MonoBehaviour:
   placingButton: {fileID: 5351775430537174537}
   rotateButton: {fileID: 4233912963487225437}
   deselectButton: {fileID: 1277020462047890681}
+--- !u!114 &8851541045220941974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382839151601725527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c8a1ccc97ad7ac4ca2f493410647fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8326675138302923951
 GameObject:
   m_ObjectHideFlags: 0

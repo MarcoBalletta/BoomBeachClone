@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class EventManagerGameManager : EventManager
 {
+
+    public delegate void OnSetupInitialData(DataGame data);
+    public OnSetupInitialData onSetupInitialData;
+
+    public delegate void OnSpeedUpToggle(int value);
+    public OnSpeedUpToggle onSpeedUpToggle;
+
     public delegate void OnBuildingButtonClick(Building building);
     public OnBuildingButtonClick onBuildingButtonClick;
 
@@ -48,4 +55,7 @@ public class EventManagerGameManager : EventManager
 
     public delegate void OnEndMatch(bool result);
     public OnEndMatch onEndMatch;
+
+    public delegate void OnDestroyableDestroyed();
+    public OnDestroyableDestroyed onDestroyableDestroyed;
 }

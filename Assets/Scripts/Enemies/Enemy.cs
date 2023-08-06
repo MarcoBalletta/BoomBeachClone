@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
     private void SetTargetDefense(Defense building)
     {
         targetBuilding = building;
+        targetBuilding.EventManager.onDead += TargetDead;
         stateManager.ChangeState(Constants.STATE_MOVEMENT);
     }
 
@@ -58,6 +59,11 @@ public class Enemy : MonoBehaviour
     {
         eventManager = GetComponent<EventManagerEnemy>();
         stateManager = GetComponent<StateManagerEnemy>();
+    }
+
+    private void TargetDead(Defense defense)
+    {
+        eventManager.onAttackEnded();
     }
 
     private void SetupData()

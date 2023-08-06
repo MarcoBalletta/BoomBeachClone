@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-
 public class Building : MonoBehaviour
 {
     protected BoxCollider coll;
@@ -102,5 +101,10 @@ public class Building : MonoBehaviour
     protected virtual void SetupUIAfterPlacingBuilding()
     {
         panelUIBuilding.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.EventManager.onDestroyableDestroyed();
     }
 }

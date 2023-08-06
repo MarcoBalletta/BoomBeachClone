@@ -70,13 +70,13 @@ public class EnemyAttackComponent : MonoBehaviour
         while (enemyController.TargetBuilding != null)
         {
             Shoot();
-            yield return new WaitForSeconds(attackRate);
+            yield return new WaitForSeconds(attackRate / GameManager.instance.SimulationSpeed);
         }
     }
     private void Shoot()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-        bullet.Setup(firePower, transform.forward);
+        bullet.Setup(firePower, transform.forward.normalized, false);
     }
 
     private void TargetDefenseDead(Defense defense)
