@@ -42,9 +42,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.GetComponent<Collider>().TryGetComponent(out IDamageable damagedEntity))
+        Debug.Log("Collision : " + collision.GetComponent<Collider>().name);
+        if(collision.GetComponent<Collider>().GetComponent<Collider>().TryGetComponent(out IDamageable damagedEntity))
         {
-            damagedEntity.Damage(firePower);
+            damagedEntity.Damage(firePower, transform.position);
         }
         Destroy(gameObject);
     }

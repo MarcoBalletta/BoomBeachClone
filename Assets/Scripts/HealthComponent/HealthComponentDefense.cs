@@ -25,17 +25,17 @@ public class HealthComponentDefense : HealthComponent
         defense.EventManager.onPlacedBuilding -= ShowHealthUI;
     }
 
-    public override void Damage(float damage)
+    public override void Damage(float damage, Vector3 position)
     {
         if(defense.EventManager.onHit != null)
-            defense.EventManager.onHit();
-        base.Damage(damage);
+            defense.EventManager.onHit(position);
+        base.Damage(damage, position);
     }
 
     protected override void Dead()
     {
         base.Dead();
-        defense.EventManager.onDead(defense);
         Destroy(gameObject, 0.1f);
+        defense.EventManager.onDead(defense);
     }
 }

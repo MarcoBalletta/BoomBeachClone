@@ -16,6 +16,6 @@ MonoBehaviour:
   speed: 5
   projectile: {fileID: 4656680103585594346, guid: 3c2a0616fe709d843a098793a4ad7e10,
     type: 3}
-  range: 8
+  range: 5
   firePower: 10
   attackFrequency: 4

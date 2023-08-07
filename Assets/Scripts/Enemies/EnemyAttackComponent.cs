@@ -76,6 +76,8 @@ public class EnemyAttackComponent : MonoBehaviour
     private void Shoot()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        if(enemyController.EventManager.onShoot != null)
+            enemyController.EventManager.onShoot(bulletSpawn);
         bullet.Setup(firePower, transform.forward.normalized, false);
     }
 

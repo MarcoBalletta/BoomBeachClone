@@ -28,9 +28,9 @@ public class Mine : Building, IClickable, IPointerClickHandler
         var hitEnemies = Physics.OverlapSphere(transform.position, explosionRange, layerMaskExplosion, QueryTriggerInteraction.Ignore);
         foreach(var enemy in hitEnemies)
         {
-            if(enemy.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if(enemy.TryGetComponent(out IDamageable damageable))
             {
-                damageable.Damage(damage);
+                damageable.Damage(damage, enemy.transform.position);
             }
         }
 

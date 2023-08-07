@@ -23,6 +23,13 @@ public class HealthComponentEnemy : HealthComponent
         enemy.EventManager.onSetupEnemy -= SetupHealthComponent;
     }
 
+    public override void Damage(float damage, Vector3 position)
+    {
+        if (enemy.EventManager.onHit != null)
+            enemy.EventManager.onHit(position);
+        base.Damage(damage, position);
+    }
+
     protected override void Dead()
     {
         base.Dead();

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(StateManagerEnemy))]
 [RequireComponent(typeof(EventManagerEnemy))]
-public class Enemy : MonoBehaviour
+public class Enemy : Controller
 {
     //private NavMeshAgent agent;
     private StateManagerEnemy stateManager;
@@ -63,7 +63,8 @@ public class Enemy : MonoBehaviour
 
     private void TargetDead(Defense defense)
     {
-        eventManager.onAttackEnded();
+        if(eventManager.onAttackEnded != null)
+            eventManager.onAttackEnded();
     }
 
     private void SetupData()

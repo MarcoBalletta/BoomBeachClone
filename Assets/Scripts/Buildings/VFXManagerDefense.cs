@@ -1,0 +1,36 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class VFXManagerDefense : VFXManagerBuilding
+{
+    [SerializeField] protected GameObject shootVFX;
+    [SerializeField] protected GameObject deadVFX;
+
+    protected Defense Controller { get => (controller as Defense); }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        Controller.EventManager.onDead += DestroyedVFX;
+        Controller.EventManager.onShoot += ShootVFX;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnEnable();
+        Controller.EventManager.onDead = DestroyedVFX;
+        Controller.EventManager.onShoot -= ShootVFX;
+    }
+
+    private void ShootVFX(Transform transform)
+    {
+        var vfx = Instantiate(shootVFX, transform.position, transform.rotation);
+    }
+
+    private void DestroyedVFX(Defense defense)
+    {
+        var vfx = Instantiate(deadVFX, transform.position, Quaternion.identity);
+    }
+}

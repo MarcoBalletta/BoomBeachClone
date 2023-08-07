@@ -8,6 +8,7 @@ using System;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject buildingButtonsPanel;
+    [SerializeField] private GameObject speedUpPanel;
     [SerializeField] private Button simulationModeButton;
     [SerializeField] private Button speedUpButton;
     [SerializeField] private TextMeshProUGUI speedUpValue;
@@ -27,12 +28,13 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance.EventManager.onPlacingModeStarted += ActivateBuildingButtonsPanel;
+        GameManager.instance.EventManager.onPlacingModeStarted += HideSpeedUpPanel;
         GameManager.instance.EventManager.onPlacingModeStarted += ShowPlayButton;
         GameManager.instance.EventManager.onSpeedUpToggle += SetSpeedVelocityValue;
         GameManager.instance.EventManager.onPlacingModeEnded += DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeEnded += HidePlayButton;
-        GameManager.instance.EventManager.onSimulationModeStarted += ShowSpeedUpButton;
-        GameManager.instance.EventManager.onSimulationModeEnded += HideSpeedUpButton;
+        GameManager.instance.EventManager.onSimulationModeStarted += ShowSpeedUpPanel;
+        GameManager.instance.EventManager.onSimulationModeEnded += HideSpeedUpPanel;
         GameManager.instance.EventManager.onEndMatch += EndGame;
     }
 
@@ -45,7 +47,7 @@ public class UIManager : MonoBehaviour
         GameManager.instance.EventManager.onPlacingModeEnded -= DeactivateBuildingButtonsPanel;
         GameManager.instance.EventManager.onPlacingModeStarted -= ShowPlayButton;
         GameManager.instance.EventManager.onPlacingModeEnded -= HidePlayButton;
-        GameManager.instance.EventManager.onSimulationModeStarted -= ShowSpeedUpButton;
+        GameManager.instance.EventManager.onSimulationModeStarted -= ShowSpeedUpPanel;
         GameManager.instance.EventManager.onEndMatch -= EndGame;
     }
 
@@ -76,15 +78,15 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region SpeedUpButton
-    private void HideSpeedUpButton()
+    #region SpeedUpPanel
+    private void HideSpeedUpPanel()
     {
-        speedUpButton.gameObject.SetActive(false);
+        speedUpPanel.SetActive(false);
     }
 
-    private void ShowSpeedUpButton()
+    private void ShowSpeedUpPanel()
     {
-        speedUpButton.gameObject.SetActive(true);
+        speedUpPanel.SetActive(true);
     }
     #endregion
 
@@ -95,7 +97,7 @@ public class UIManager : MonoBehaviour
 
     private void EndGame(bool result)
     {
-        HideSpeedUpButton();
+        HideSpeedUpPanel();
         if (result)
         {
             endGameText.text = Constants.WIN_TEXT;

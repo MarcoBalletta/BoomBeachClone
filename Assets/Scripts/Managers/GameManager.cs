@@ -66,6 +66,7 @@ public class GameManager : Singleton<GameManager>
     {
         if(DataForGameHandler.instance != null)
             eventManager.onSetupInitialData(DataForGameHandler.instance.DataGame);
+        eventManager.onSpeedUpToggle(simulationSpeed);
         RandomPlaceHeadquarter();
     }
 

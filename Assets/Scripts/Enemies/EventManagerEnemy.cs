@@ -32,6 +32,12 @@ public class EventManagerEnemy : EventManager
     public delegate void OnDead(Enemy enemy);
     public OnDead onDead;
 
+    public delegate void OnHit(Vector3 position);
+    public OnHit onHit;
+
+    public delegate void OnShoot(Transform transform);
+    public OnShoot onShoot;
+
     public delegate void OnEndGame(bool result);
     public OnEndGame onEndGame;
 }

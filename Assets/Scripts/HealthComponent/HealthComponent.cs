@@ -28,7 +28,7 @@ public abstract class HealthComponent : MonoBehaviour, IDamageable
         healthBarSlider.gameObject.SetActive(false);
     }
 
-    public virtual void Damage(float damage)
+    public virtual void Damage(float damage, Vector3 position)
     {
         actualHP -= damage;
         UpdateUI();

@@ -82,6 +82,8 @@ public class BuildingAttackComponent : MonoBehaviour
     private void Shoot()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        if(defense.EventManager.onShoot != null)
+            defense.EventManager.onShoot(bulletSpawn);
         bullet.Setup(firePower, bulletSpawn.transform.forward.normalized, archTrajectory);
     }
 

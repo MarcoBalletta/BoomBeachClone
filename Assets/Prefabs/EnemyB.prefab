@@ -287,6 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ab6452216ea9543b787593402c7873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMaskCheckClearView:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &-7032628048163019986
 MonoBehaviour:
   m_ObjectHideFlags: 0

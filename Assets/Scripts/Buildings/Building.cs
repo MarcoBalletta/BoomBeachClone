@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class Building : MonoBehaviour
+public class Building : Controller
 {
     protected BoxCollider coll;
     private Tile tileUnder;

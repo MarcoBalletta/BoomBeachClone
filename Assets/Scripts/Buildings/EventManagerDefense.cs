@@ -20,8 +20,11 @@ public class EventManagerDefense : EventManagerBuilding
     public delegate void OnSetupBuilding(DefenseData data);
     public OnSetupBuilding onSetupBuilding;
 
-    public delegate void OnHit();
+    public delegate void OnHit(Vector3 position);
     public OnHit onHit;
+
+    public delegate void OnShoot(Transform transform);
+    public OnShoot onShoot;
 
     public delegate void OnDead(Defense defense);
     public OnDead onDead;
