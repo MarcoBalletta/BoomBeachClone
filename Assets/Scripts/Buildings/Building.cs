@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -64,6 +65,21 @@ public class Building : Controller
     {
         if (tileUnder != null)
             tileUnder.DeselectedTile();
+    }
+
+    public IEnumerator RotateLerpBuilding()
+    {
+        Vector3 eulerOriginal = transform.rotation.eulerAngles;
+        Vector3 eulerObj = new Vector3(eulerOriginal.x, eulerOriginal.y + GameManager.instance.PlacementAngleRotation, eulerOriginal.z);
+        Quaternion rotObjective = Quaternion.Euler(eulerObj);
+        while (Mathf.Abs(Quaternion.Dot(transform.rotation, rotObjective)) < 0.99) 
+        {
+            Debug.Log("Rotating from : " + transform.rotation + " to : " + rotObjective + " ---- dot : "  + Quaternion.Dot(transform.rotation, rotObjective));
+            Debug.Log("Rotating from : " + transform.rotation.eulerAngles + " to : " + rotObjective.eulerAngles + " ---- dot : "  + Quaternion.Dot(transform.rotation, rotObjective));
+            transform.rotation = Quaternion.Lerp(transform.localRotation, rotObjective, GameManager.instance.PlacementSpeedRotation);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        transform.rotation = rotObjective;
     }
 
     protected bool CheckIfTileIsUnder()

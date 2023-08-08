@@ -15209,6 +15209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlaceableBuildings: 10
+  placementAngleRotation: 90
+  placementSpeedRotation: 0.2
   headquarterInstance: {fileID: 2215964522833834516, guid: d780e35a0dfabbf49964ab2328cff82b,
     type: 3}
 --- !u!114 &1862198590

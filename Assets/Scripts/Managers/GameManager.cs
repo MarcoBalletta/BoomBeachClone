@@ -17,6 +17,8 @@ public class GameManager : Singleton<GameManager>
     private int simulationSpeed = 1;
     [Range(1,10)]
     [SerializeField] private int maxPlaceableBuildings = 1;
+    [SerializeField] private float placementAngleRotation = 1;
+    [SerializeField] private float placementSpeedRotation = 0.1f;
     [SerializeField] private Defense headquarterInstance;
     private int actualPlacedBuildings;
     private List<Defense> defenses = new List<Defense>();
@@ -27,6 +29,8 @@ public class GameManager : Singleton<GameManager>
     public List<Defense> Defenses { get => defenses; }
     public int SimulationSpeed { get => simulationSpeed; }
     public StateManagerGameManager StateManager { get => stateManager; }
+    public float PlacementAngleRotation { get => placementAngleRotation; }
+    public float PlacementSpeedRotation { get => placementSpeedRotation; }
 
     protected override void Awake()
     {

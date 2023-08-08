@@ -52,7 +52,14 @@ public class PlacingUI : MonoBehaviour
 
     private void RotateButtonPressed()
     {
+        StartCoroutine(CoroutineRotation());
+    }
 
+    private IEnumerator CoroutineRotation()
+    {
+        border.SetActive(false);
+        yield return building.RotateLerpBuilding();
+        border.SetActive(true);
     }
 
     private void HideUI()
