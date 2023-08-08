@@ -16,7 +16,6 @@ public class PlacingUI : MonoBehaviour
         building = GetComponentInParent<Building>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         placingButton.onClick.AddListener(() => PlaceButtonPressed());
@@ -26,18 +25,14 @@ public class PlacingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        //GameManager.instance.EventManager.onBuildingModeStarted += ShowUI;
         building.EventManager.onPlacedBuilding += HideUI;
         building.EventManager.onBuildingModeActivated += ShowUI;
-        //building.EventManager.onPlacedBuilding += PlacedBuilding;
     }
 
     private void OnDisable()
     {
-        //GameManager.instance.EventManager.onBuildingModeStarted -= ShowUI;
         building.EventManager.onBuildingModeActivated -= ShowUI;
         building.EventManager.onPlacedBuilding -= HideUI;
-        //building.EventManager.onPlacedBuilding -= PlacedBuilding;
     }
 
     private void PlaceButtonPressed()
@@ -66,11 +61,6 @@ public class PlacingUI : MonoBehaviour
     {
         border.SetActive(false);
     }
-
-    //private void PlacedBuilding()
-    //{
-    //    GameManager.instance.EventManager.onBuildingModeStarted -= ShowUI;
-    //}
 
     private void ShowUI()
     {

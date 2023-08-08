@@ -290,6 +290,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   panelUIBuilding: {fileID: 8006298384636666709}
+  checkTilesUnderPoints:
+  - position: {x: 1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 0}
+    underTile: {fileID: 0}
   data: {fileID: 11400000, guid: 9da6dd3f2bcbf2e4e9ec4a8f4cb9e09d, type: 2}
 --- !u!1001 &1692248122303992532
 PrefabInstance:

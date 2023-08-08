@@ -22,7 +22,6 @@ public class Spawner : MonoBehaviour
         wallRadius = (outerRadius - innerRadius) * 0.5f;
         ringRadius = wallRadius + innerRadius;
         transform.position = GameManager.instance.GetCenterGrid();
-        //coll = GetComponentInChildren<MeshCollider>();
     }
 
     public void SubscribePoolerToList(PoolerEntity pooler)
@@ -56,14 +55,6 @@ public class Spawner : MonoBehaviour
         }
         return Task.CompletedTask;
     }
-
-    //random position in simple mesh
-    //private Vector3 GetRandomPositionInsideCollider()
-    //{
-    //    float posX = Random.Range(coll.bounds.min.x, coll.bounds.max.x);
-    //    float posZ = Random.Range(coll.bounds.min.z, coll.bounds.max.z);
-    //    return new Vector3(posX, transform.position.y, posZ);
-    //}
 
     private Vector3 GetRandomPositionInsideTorus()
     {

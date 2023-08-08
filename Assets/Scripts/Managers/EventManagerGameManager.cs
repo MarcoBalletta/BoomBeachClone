@@ -20,7 +20,7 @@ public class EventManagerGameManager : EventManager
     public delegate void OnBuildingClick(Building building);
     public OnBuildingClick onBuildingClick;
 
-    public delegate void OnBuildingPlaced(Building building, Tile tile);
+    public delegate void OnBuildingPlaced(Building building, List<Tile> tiles);
     public OnBuildingPlaced onBuildingPlaced;
     
     public delegate void OnBuildingOnTile(Building building);

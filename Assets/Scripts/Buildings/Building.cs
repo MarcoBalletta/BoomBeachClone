@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -7,14 +8,15 @@ using UnityEngine;
 public class Building : Controller
 {
     protected BoxCollider coll;
-    private Tile tileUnder;
+    //private Tile tileUnder;
     [SerializeField] protected LayerMask layerMask;
     protected StateManagerBuilding stateManager;
     protected EventManagerBuilding eventManager;
     [SerializeField] protected GameObject panelUIBuilding;
-    
+    [SerializeField] private List<RaycastUnderTileData> checkTilesUnderPoints = new List<RaycastUnderTileData>();
+
     public EventManagerBuilding EventManager { get => eventManager; set => eventManager = value; }
-    public Tile TileUnder { get => tileUnder; }
+    //public Tile TileUnder { get => tileUnder; }
 
     protected virtual void Awake()
     {
@@ -25,15 +27,13 @@ public class Building : Controller
 
     protected virtual void OnEnable()
     {
-        //eventManager.onBuildingModeActivated += StartBuildingMode;
-        eventManager.onBuildingModeUpdate += CheckTileUnderBuilding;
+        eventManager.onBuildingModeUpdate += CheckTilesUnderBuilding;
         eventManager.onBuildingModeReleased += PlaceBuildingIfPossible;
     }
 
     protected virtual void OnDisable()
     {
-        //eventManager.onBuildingModeActivated -= StartBuildingMode;
-        eventManager.onBuildingModeUpdate -= CheckTileUnderBuilding;
+        eventManager.onBuildingModeUpdate -= CheckTilesUnderBuilding;
         eventManager.onBuildingModeReleased -= PlaceBuildingIfPossible;
     }
 
@@ -43,28 +43,81 @@ public class Building : Controller
         stateManager.ChangeState(Constants.STATE_PLACING);
     }
 
-    protected void CheckTileUnderBuilding()
+    //protected void CheckTileUnderBuilding()
+    //{
+    //    if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
+    //    {
+    //        if (hit.collider.TryGetComponent(out Tile tileHit) && !hit.collider.GetComponent<Tile>().IsOccupied())
+    //        {
+    //            DeselectTile();
+    //            tileUnder = tileHit;
+    //            tileUnder.SelectedTile();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        DeselectTile();
+    //        tileUnder = null;
+    //    }
+    //}
+
+    public void CheckTilesUnderBuilding()
     {
-        if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
+        foreach (var raycastPosition in checkTilesUnderPoints.ToList()) 
         {
-            if (hit.collider.GetComponent<Tile>() && !hit.collider.GetComponent<Tile>().IsOccupied())
+            Debug.DrawRay(transform.position + transform.right * raycastPosition.position.x + transform.forward * raycastPosition.position.z, transform.up * -1, Color.black, 5f);
+            if (Physics.Raycast(transform.position + transform.right * raycastPosition.position.x + transform.forward * raycastPosition.position.z, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
             {
-                DeselectTile();
-                tileUnder = hit.collider.GetComponent<Tile>();
-                tileUnder.SelectedTile();
+                if (hit.collider.TryGetComponent(out Tile tileHit) && !hit.collider.GetComponent<Tile>().IsOccupied())
+                {
+                    if (!CheckIfTileCanBeUnderTile(tileHit)) continue;
+                    DeselectTile(raycastPosition.underTile);
+                    int index = checkTilesUnderPoints.IndexOf(raycastPosition);
+                    var structElementToModify = checkTilesUnderPoints[index];
+                    structElementToModify.underTile = tileHit;
+                    checkTilesUnderPoints[index] = structElementToModify;
+                    tileHit.SelectedTile();
+                }
+                else
+                {
+                    DeselectUnderTile(raycastPosition);
+                }
             }
-        }
-        else
-        {
-            DeselectTile();
-            tileUnder = null;
+            else
+            {
+                DeselectUnderTile(raycastPosition);
+            }
         }
     }
 
-    protected void DeselectTile()
+    private void DeselectUnderTile(RaycastUnderTileData data)
     {
-        if (tileUnder != null)
-            tileUnder.DeselectedTile();
+        DeselectTile(data.underTile);
+        int index = checkTilesUnderPoints.IndexOf(data);
+        var structElementToModify = checkTilesUnderPoints[index];
+        structElementToModify.underTile = null;
+        checkTilesUnderPoints[index] = structElementToModify;
+    }
+
+    private bool CheckIfTileCanBeUnderTile(Tile tile)
+    {
+        foreach(var underTile in checkTilesUnderPoints)
+        {
+            if (underTile.underTile == tile) return false;
+        }
+        return true;
+    }
+
+    //protected void DeselectTile()
+    //{
+    //    if (tileUnder != null)
+    //        tileUnder.DeselectedTile();
+    //}
+
+    protected void DeselectTile(Tile tile)
+    {
+        if (tile != null)
+            tile.DeselectedTile();
     }
 
     public IEnumerator RotateLerpBuilding()
@@ -74,44 +127,67 @@ public class Building : Controller
         Quaternion rotObjective = Quaternion.Euler(eulerObj);
         while (Mathf.Abs(Quaternion.Dot(transform.rotation, rotObjective)) < 0.99) 
         {
-            Debug.Log("Rotating from : " + transform.rotation + " to : " + rotObjective + " ---- dot : "  + Quaternion.Dot(transform.rotation, rotObjective));
-            Debug.Log("Rotating from : " + transform.rotation.eulerAngles + " to : " + rotObjective.eulerAngles + " ---- dot : "  + Quaternion.Dot(transform.rotation, rotObjective));
             transform.rotation = Quaternion.Lerp(transform.localRotation, rotObjective, GameManager.instance.PlacementSpeedRotation);
             yield return new WaitForSeconds(Time.deltaTime);
         }
         transform.rotation = rotObjective;
     }
 
-    protected bool CheckIfTileIsUnder()
+    //protected bool CheckIfTileIsUnder()
+    //{
+    //    return tileUnder != null;
+    //}
+
+    protected bool CheckIfTilesAreUnderBuilding()
     {
-        return tileUnder != null;
+        foreach(var tilesUnder in checkTilesUnderPoints)
+        {
+            if (tilesUnder.underTile == null)
+                return false;
+        }
+        return true;
     }
 
     public void PlaceBuildingIfPossible()
     {
-        if (CheckIfTileIsUnder())
+        if (CheckIfTilesAreUnderBuilding())
         {
             //can place building
-            PlaceBuilding(this, tileUnder);
+            PlaceBuilding(this, GetTilesUnder());
         }
     }
 
-    public void PlaceBuilding(Building building, Tile tile)
+    public List<Tile> GetTilesUnder()
     {
-        GameManager.instance.EventManager.onBuildingPlaced(building, tile);
+        List<Tile> tiles = new List<Tile>();
+        foreach (var underTile in checkTilesUnderPoints)
+        {
+            tiles.Add(underTile.underTile);
+        }
+        return tiles;
+    }
+
+    public void PlaceBuilding(Building building, List<Tile> tiles)
+    {
+        GameManager.instance.EventManager.onBuildingPlaced(building, tiles);
+        PlacedState();
+    }
+
+    public void PlacedState()
+    {
         stateManager.ChangeState(Constants.STATE_PLACED);
     }
 
     public void DeselectedBuilding()
     {
-        if (tileUnder)
-            tileUnder.DeselectedTile();
+        foreach(var underTile in checkTilesUnderPoints)
+        {
+            if (underTile.underTile != null)
+                underTile.underTile.DeselectedTile();
+        }
+        //if (tileUnder)
+        //    tileUnder.DeselectedTile();
         Destroy(gameObject);
-    }
-
-    private void RotateBuilding(float angle)
-    {
-        //lerp rotation building when click on rotation button
     }
 
     protected virtual void SetupUIAfterPlacingBuilding()

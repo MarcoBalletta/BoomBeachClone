@@ -207,6 +207,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   panelUIBuilding: {fileID: 7134109149490113566}
+  checkTilesUnderPoints:
+  - position: {x: 1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 0}
+    underTile: {fileID: 0}
   data: {fileID: 11400000, guid: e6dceff15293dce43a21f2ccdf658b1a, type: 2}
 --- !u!1 &6156916213175930888
 GameObject:

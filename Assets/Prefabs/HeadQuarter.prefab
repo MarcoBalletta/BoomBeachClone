@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawn: {fileID: 265656661636313474}
+  archTrajectory: 0
 --- !u!1 &6443706740159831875
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +290,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   panelUIBuilding: {fileID: 8006298384636666709}
+  checkTilesUnderPoints:
+  - position: {x: 1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: -1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 1, y: 0, z: 0}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: -1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 1}
+    underTile: {fileID: 0}
+  - position: {x: 0, y: 0, z: 0}
+    underTile: {fileID: 0}
   data: {fileID: 11400000, guid: 00be267ef91d7eb4f9cbab80702f59a9, type: 2}
 --- !u!1001 &1692248122303992532
 PrefabInstance:

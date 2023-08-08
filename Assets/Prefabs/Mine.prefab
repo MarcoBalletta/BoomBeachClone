@@ -118,6 +118,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   panelUIBuilding: {fileID: 5877676558678775579}
+  checkTilesUnderPoints:
+  - position: {x: 0, y: 0, z: 0}
+    underTile: {fileID: 0}
   explosionRange: 5
   damage: 10
   layerMaskExplosion:

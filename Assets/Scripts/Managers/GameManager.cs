@@ -88,10 +88,13 @@ public class GameManager : Singleton<GameManager>
         eventManager.onSpeedUpToggle(simulationSpeed);
     }
 
-    private void PlaceBuilding(Building building, Tile tile)
+    private void PlaceBuilding(Building building, List<Tile> tiles)
     { 
-        building.transform.position = tile.GetPlacingPosition();
-        tile.PlacedBuilding(building);
+        building.transform.position = GetCenterOfTiles(tiles);
+        foreach (var tile in tiles) 
+        { 
+            tile.PlacedBuilding(building);
+        }
         if(building is Defense) 
         { 
             defenses.Add((building as Defense));
@@ -99,6 +102,16 @@ public class GameManager : Singleton<GameManager>
         }
         actualPlacedBuildings++;
         StartPlacingMode();
+    }
+
+    private Vector3 GetCenterOfTiles(List<Tile> tiles)
+    {
+        Vector3 totalPositions = Vector3.zero;
+        foreach(var tile in tiles)
+        {
+            totalPositions += tile.GetPlacingPosition();
+        }
+        return totalPositions / tiles.Count;
     }
 
     private void StartBuildingPlacingMode(Building building)
@@ -146,11 +159,13 @@ public class GameManager : Singleton<GameManager>
 
     public async void RandomPlaceHeadquarter()
     {
-        headquarterInstance = Instantiate(headquarterInstance, transform.position, transform.rotation);
+        headquarterInstance = Instantiate(headquarterInstance, transform.position + transform.up * 5, transform.rotation);
         gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
-        await System.Threading.Tasks.Task.Delay(50);
-        headquarterInstance.PlaceBuilding(headquarterInstance, gridManager.MapTiles[position].tile);
-        //headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position);
+        await System.Threading.Tasks.Task.Delay(100);
+        headquarterInstance.PlacedState();
+        headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position) + Vector3.up*2;
+        headquarterInstance.CheckTilesUnderBuilding();
+        headquarterInstance.PlaceBuilding(headquarterInstance, headquarterInstance.GetTilesUnder());
     }
 
     private void SpawnedEnemy(Enemy enemy)
