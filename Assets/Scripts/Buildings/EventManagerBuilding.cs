@@ -15,4 +15,7 @@ public class EventManagerBuilding : EventManager
 
     public delegate void PlacedBuilding();
     public PlacedBuilding onPlacedBuilding;
+
+    public delegate void OnDead(Building building);
+    public OnDead onDead;
 }

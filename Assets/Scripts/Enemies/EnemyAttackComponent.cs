@@ -43,7 +43,7 @@ public class EnemyAttackComponent : MonoBehaviour
 
     private void AttackStarted()
     {
-        enemyController.TargetBuilding.EventManager.onDead += TargetDefenseDead;
+        enemyController.TargetBuilding.EventManager.onDeadDefense += TargetDefenseDead;
         shootRoutine = StartCoroutine(ShootCoroutine());
     }
 
@@ -91,7 +91,7 @@ public class EnemyAttackComponent : MonoBehaviour
     {
         if(enemyController.TargetBuilding != null)
         {
-            enemyController.TargetBuilding.EventManager.onDead -= TargetDefenseDead;
+            enemyController.TargetBuilding.EventManager.onDeadDefense -= TargetDefenseDead;
         }
     }
 

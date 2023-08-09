@@ -36,6 +36,7 @@ public class HealthComponentDefense : HealthComponent
     {
         base.Dead();
         Destroy(gameObject, 0.1f);
+        defense.EventManager.onDeadDefense(defense);
         defense.EventManager.onDead(defense);
     }
 }

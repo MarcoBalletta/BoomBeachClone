@@ -27,14 +27,14 @@ public class BuildingAttackComponent : MonoBehaviour
         defense.EventManager.onSetupBuilding += SetupAttackComponent;
         defense.EventManager.onFoundEnemy += AttackTarget;
         defense.EventManager.onLostEnemy += LostEnemyFromRange;
-        defense.EventManager.onDead += DeathDefense;
+        defense.EventManager.onDeadDefense += DeathDefense;
     }
 
     private void OnDisable()
     {
         defense.EventManager.onSetupBuilding -= SetupAttackComponent;
         defense.EventManager.onFoundEnemy -= AttackTarget;
-        defense.EventManager.onDead -= DeathDefense;
+        defense.EventManager.onDeadDefense -= DeathDefense;
     }
 
     private void SetupAttackComponent(DefenseData data)

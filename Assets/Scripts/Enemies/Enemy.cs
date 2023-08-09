@@ -61,7 +61,7 @@ public class Enemy : Controller
         stateManager = GetComponent<StateManagerEnemy>();
     }
 
-    private void TargetDead(Defense defense)
+    private void TargetDead(Building defense)
     {
         if(eventManager.onAttackEnded != null)
             eventManager.onAttackEnded();

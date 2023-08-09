@@ -26,6 +26,6 @@ public class EventManagerDefense : EventManagerBuilding
     public delegate void OnShoot(Transform transform);
     public OnShoot onShoot;
 
-    public delegate void OnDead(Defense defense);
-    public OnDead onDead;
+    public delegate void OnDeadDefense(Defense defense);
+    public OnDeadDefense onDeadDefense;
 }

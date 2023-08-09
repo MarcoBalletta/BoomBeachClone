@@ -15,7 +15,6 @@ public class Mine : Building, IClickable, IPointerClickHandler
         //if simulation mode
         if(GameManager.instance.IsGameStarted())
             Explode();
-        Debug.Log("Clicked");
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -33,7 +32,7 @@ public class Mine : Building, IClickable, IPointerClickHandler
                 damageable.Damage(damage, enemy.transform.position);
             }
         }
-
+        eventManager.onDead(this);
         Destroy(gameObject, 0.1f);
     }
 

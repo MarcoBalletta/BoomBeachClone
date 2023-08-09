@@ -42,8 +42,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Collision : " + collision.GetComponent<Collider>().name);
-        if(collision.GetComponent<Collider>().GetComponent<Collider>().TryGetComponent(out IDamageable damagedEntity))
+        if(collision.TryGetComponent(out IDamageable damagedEntity))
         {
             damagedEntity.Damage(firePower, transform.position);
         }

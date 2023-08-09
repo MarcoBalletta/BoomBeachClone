@@ -98,7 +98,7 @@ public class GameManager : Singleton<GameManager>
         if(building is Defense) 
         { 
             defenses.Add((building as Defense));
-            (building as Defense).EventManager.onDead += RemoveDefense;
+            building.EventManager.onDead += RemoveDefense;
         }
         actualPlacedBuildings++;
         StartPlacingMode();
@@ -134,9 +134,9 @@ public class GameManager : Singleton<GameManager>
         navMesh.BuildNavMesh();
     }
 
-    private void RemoveDefense(Defense defense)
+    private void RemoveDefense(Building defense)
     {
-        defenses.Remove(defense);
+        defenses.Remove((defense as Defense));
         defenses.TrimExcess();
         if (defense != null && defense == headquarterInstance)
             eventManager.onEndMatch(false);

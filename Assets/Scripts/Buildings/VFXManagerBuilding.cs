@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class VFXManagerBuilding : VFXManager<Building>
 {
-    protected GameObject vfxPlaced;
+    [SerializeField] protected GameObject vfxPlaced;
+    [SerializeField] protected GameObject deadVFX;
+
 
     protected override void OnEnable()
     {
         controller.EventManager.onPlacedBuilding += PlacedBuildingVFX;
+        controller.EventManager.onDead += DestroyedVFX;
     }
 
     private void PlacedBuildingVFX()
@@ -17,8 +20,14 @@ public class VFXManagerBuilding : VFXManager<Building>
         var vfx = Instantiate(vfxPlaced, transform.position, Quaternion.identity);
     }
 
+    private void DestroyedVFX(Building building)
+    {
+        var vfx = Instantiate(deadVFX, transform.position, Quaternion.identity);
+    }
+
     protected override void OnDisable()
     {
         controller.EventManager.onPlacedBuilding -= PlacedBuildingVFX;
+        controller.EventManager.onDead = DestroyedVFX;
     }
 }
