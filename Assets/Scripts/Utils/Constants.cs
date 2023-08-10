@@ -22,4 +22,10 @@ public class Constants
     //Scenes names
     public const string MENU_SCENE_NAME = "MenuScene";
     public const string COMBAT_SCENE_NAME = "CombatScene";
+    //EnemyAnimationTrigger
+    public const string ANIMATION_RESEARCH = "Research";
+    public const string ANIMATION_MOVEMENT = "Movement";
+    public const string ANIMATION_SHOOT = "Shoot";
+    public const string ANIMATION_DEATH = "Death";
+
 }

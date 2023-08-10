@@ -29,9 +29,9 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""MouseClick"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""3fbcc103-624b-436f-9549-6b4b156c950d"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -88,7 +88,7 @@ public partial class @InputPlayer : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""927e211f-4785-4916-9fde-18607134ac64"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

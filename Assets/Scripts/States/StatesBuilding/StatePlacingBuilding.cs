@@ -14,8 +14,6 @@ public class StatePlacingBuilding : State
         base.OnEnter();
         if ((stateManager as StateManagerBuilding).EventManagerBuilding?.onBuildingModeActivated != null)
             (stateManager as StateManagerBuilding).EventManagerBuilding?.onBuildingModeActivated();
-        else
-            Debug.Log("Empty");
     }
 
     public override void OnUpdate()

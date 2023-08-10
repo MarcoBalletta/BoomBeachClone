@@ -45,7 +45,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
 
     private void SpawnBuildingSelected(Building building)
     {
-        var buildingToSpawn = Instantiate(building, Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) , Quaternion.identity);
+        var buildingToSpawn = Instantiate(building, Camera.main.ScreenToWorldPoint(input.PlayerInput.MousePosition.ReadValue<Vector2>()) , Quaternion.identity);
         //SelectBuilding(buildingToSpawn);
         GameManager.instance.EventManager.onBuildingClick(buildingToSpawn);
     }
@@ -79,7 +79,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
     {
         if (selectedBuilding != null && clickedOnSelectedBuilding)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Ray ray = Camera.main.ScreenPointToRay(input.PlayerInput.MousePosition.ReadValue<Vector2>());
             if (Physics.Raycast(ray, out RaycastHit hit, 5000f, layerMask, QueryTriggerInteraction.Ignore))
             {
                 selectedBuilding.transform.position = hit.point + Vector3.up * 2;
@@ -117,7 +117,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
 
     private void MouseClicked(InputAction.CallbackContext obj)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Ray ray = Camera.main.ScreenPointToRay(input.PlayerInput.MousePosition.ReadValue<Vector2>());
         if (Physics.Raycast(ray, out RaycastHit hit, 5000f, layerMaskBuilding, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.TryGetComponent(out Building building))

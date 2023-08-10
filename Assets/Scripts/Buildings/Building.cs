@@ -65,7 +65,6 @@ public class Building : Controller
     {
         foreach (var raycastPosition in checkTilesUnderPoints.ToList()) 
         {
-            Debug.DrawRay(transform.position + transform.right * raycastPosition.position.x + transform.forward * raycastPosition.position.z, transform.up * -1, Color.black, 5f);
             if (Physics.Raycast(transform.position + transform.right * raycastPosition.position.x + transform.forward * raycastPosition.position.z, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
             {
                 if (hit.collider.TryGetComponent(out Tile tileHit) && !hit.collider.GetComponent<Tile>().IsOccupied())
@@ -138,7 +137,7 @@ public class Building : Controller
     //    return tileUnder != null;
     //}
 
-    protected bool CheckIfTilesAreUnderBuilding()
+    public bool CheckIfTilesAreUnderBuilding()
     {
         foreach(var tilesUnder in checkTilesUnderPoints)
         {

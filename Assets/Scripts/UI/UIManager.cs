@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
         simulationModeButton.onClick.AddListener(() => GameManager.instance.PlayModeActivated());
         retryButton.onClick.AddListener(() => GameManager.instance.ReloadScene());
         speedUpButton.onClick.AddListener(() => GameManager.instance.ToggleSpeedUpButton());
+        backToMenuButton.onClick.AddListener(() => GameManager.instance.BackToMenu());
         //back to menu click add listener
     }
 

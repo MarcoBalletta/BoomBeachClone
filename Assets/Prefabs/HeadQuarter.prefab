@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb0fa74041687c478ea9da712841a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedClip: {fileID: 0}
+  placedClip: {fileID: 8300000, guid: 56516c45e196bae4e9df18f4fb79ea54, type: 3}
   deadClip: {fileID: 8300000, guid: 7ff3494e5254748538d75169821087d8, type: 3}
 --- !u!114 &1867691086933160753
 MonoBehaviour:

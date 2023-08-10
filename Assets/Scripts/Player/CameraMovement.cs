@@ -30,6 +30,9 @@ public class CameraMovement : MonoBehaviour
     {
         input = new InputPlayer();
         input.Enable();
+#if UNITY_ANDROID
+        zoomPinchSpeed *= 10;
+#endif
     }
 
     private void OnEnable()
@@ -120,7 +123,8 @@ public class CameraMovement : MonoBehaviour
     {
         if (isPanning)
         {
-            var mouseDifference = (Mouse.current.position.ReadValue().x - lastPositionMouse.x);
+            //var mouseDifference = (Mouse.current.position.ReadValue().x - lastPositionMouse.x);
+            var mouseDifference = (input.PlayerInput.MousePosition.ReadValue<Vector2>().x - lastPositionMouse.x);
             Quaternion rotation = pivot.transform.rotation;
             rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y + panSpeed * mouseDifference, rotation.eulerAngles.z);
             pivot.rotation = rotation;
@@ -131,6 +135,7 @@ public class CameraMovement : MonoBehaviour
     {
         //Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(input.PlayerInput.Zoom.ReadValue<Vector2>().y, -1,1), minZoomValue, maxZoomValue);
         Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(GetZoomValue(), -1,1), minZoomValue, maxZoomValue);
+        Debug.Log("GetZoomValue: " + GetZoomValue() + "FieldofView: " + Camera.main.fieldOfView);
     }
 
     private float GetZoomValue()
@@ -187,6 +192,7 @@ public class CameraMovement : MonoBehaviour
             mult = -1;
         }
         previousDistance = distance;
+        Debug.Log("Pinch speed:" + zoomPinchSpeed * mult);
         return zoomPinchSpeed * mult;
     }
 

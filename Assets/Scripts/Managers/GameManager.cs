@@ -160,11 +160,14 @@ public class GameManager : Singleton<GameManager>
     public async void RandomPlaceHeadquarter()
     {
         headquarterInstance = Instantiate(headquarterInstance, transform.position + transform.up * 5, transform.rotation);
-        gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
         await System.Threading.Tasks.Task.Delay(100);
-        headquarterInstance.PlacedState();
-        headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position) + Vector3.up*2;
-        headquarterInstance.CheckTilesUnderBuilding();
+        while (!headquarterInstance.CheckIfTilesAreUnderBuilding())
+        {
+            gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
+            headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position) + Vector3.up*2;
+            headquarterInstance.PlacedState();
+            headquarterInstance.CheckTilesUnderBuilding();
+        }
         headquarterInstance.PlaceBuilding(headquarterInstance, headquarterInstance.GetTilesUnder());
     }
 
@@ -172,8 +175,9 @@ public class GameManager : Singleton<GameManager>
     {
         if (!enemies.Contains(enemy))
         {
-            enemies.Add(enemy);
             enemy.EventManager.onDead += DeadEnemy;
+            enemies.Add(enemy);
+            Debug.Log("Added delegate dead enemy");
         }
     }
 

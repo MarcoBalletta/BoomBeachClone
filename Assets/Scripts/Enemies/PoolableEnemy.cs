@@ -13,10 +13,14 @@ public class PoolableEnemy : PoolableObject
         enemy = GetComponent<Enemy>();
     }
 
+    private void Start()
+    {
+        GameManager.instance.EventManager.onSpawnEnemy(enemy);
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.instance.EventManager.onSpawnEnemy(enemy);
     }
 
     protected override void OnDisable()

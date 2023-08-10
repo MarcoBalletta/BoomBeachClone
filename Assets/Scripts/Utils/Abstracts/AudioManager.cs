@@ -12,6 +12,8 @@ public abstract class AudioManager<T> : MonoBehaviour where T: Controller
     protected virtual void Awake()
     {
         controller = GetComponent<T>();
+        source = GetComponent<AudioSource>();
+        source.volume = 0.7f;
     }
 
     protected virtual void OnEnable()

@@ -61,21 +61,17 @@ public class EnemyMovementComponent : MonoBehaviour
         bool clearViewToTarget = false;
         while(Vector3.Distance(transform.position, agent.destination) >= rangeToAttack || !clearViewToTarget)
         {
-            Debug.Log("Distance : " + Vector3.Distance(transform.position, agent.destination));
             Debug.DrawRay(transform.position, (transform.position - agent.destination), Color.black, Time.deltaTime);
             if(Physics.Raycast(transform.position, (agent.destination - transform.position).normalized,  out RaycastHit hit, rangeToAttack, layerMaskCheckClearView, QueryTriggerInteraction.Ignore))
             {
                 if(hit.collider.TryGetComponent(out Building building) && building == enemyController.TargetBuilding)
                 {
-                    Debug.Log("Hit target");
                     clearViewToTarget = true;
                 }
-                Debug.Log("Hit not target");
                 clearViewToTarget = false;
             }
             else
             {
-                Debug.Log("Didn't hit anything");
                 clearViewToTarget = true;
             }
             yield return new WaitForSeconds(Time.deltaTime);
