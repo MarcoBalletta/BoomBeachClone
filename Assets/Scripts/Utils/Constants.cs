@@ -27,5 +27,4 @@ public class Constants
     public const string ANIMATION_MOVEMENT = "Movement";
     public const string ANIMATION_SHOOT = "Shoot";
     public const string ANIMATION_DEATH = "Death";
-
 }

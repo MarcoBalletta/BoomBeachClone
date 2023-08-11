@@ -35,6 +35,9 @@ public class EventManagerEnemy : EventManager
     public delegate void OnHit(Vector3 position);
     public OnHit onHit;
 
+    public delegate void OnStartShooting();
+    public OnStartShooting onStartShooting;
+
     public delegate void OnShoot(Transform transform);
     public OnShoot onShoot;
 

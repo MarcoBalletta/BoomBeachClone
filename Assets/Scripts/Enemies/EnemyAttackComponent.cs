@@ -61,6 +61,7 @@ public class EnemyAttackComponent : MonoBehaviour
     private void ImmediateRotateToTarget()
     {
         transform.LookAt(enemyController.TargetBuilding.transform);
+        bulletSpawn.LookAt(enemyController.TargetBuilding.transform);
     }
 
     private IEnumerator ShootCoroutine()
@@ -69,16 +70,17 @@ public class EnemyAttackComponent : MonoBehaviour
         ImmediateRotateToTarget();
         while (enemyController.TargetBuilding != null)
         {
-            Shoot();
+            //Shoot();
+            enemyController.EventManager.onStartShooting();
             yield return new WaitForSeconds(attackRate / GameManager.instance.SimulationSpeed);
         }
     }
-    private void Shoot()
+    public void Shoot()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
         if(enemyController.EventManager.onShoot != null)
             enemyController.EventManager.onShoot(bulletSpawn);
-        bullet.Setup(firePower, transform.forward.normalized, false);
+        bullet.Setup(firePower, bulletSpawn.forward.normalized, false);
     }
 
     private void TargetDefenseDead(Defense defense)

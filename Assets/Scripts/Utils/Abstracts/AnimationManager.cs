@@ -9,7 +9,7 @@ public abstract class AnimationManager<T> : MonoBehaviour where T : Controller
 
     protected virtual void Awake()
     {
-        controller = GetComponent<T>();
+        controller = GetComponentInParent<T>();
         animator = GetComponent<Animator>();
     }
 

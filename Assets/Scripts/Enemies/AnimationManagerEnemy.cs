@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,31 @@ public class AnimationManagerEnemy : AnimationManager<Enemy>
 {
 
     private EventManagerEnemy eventManager;
-    private Animator animator;
 
     protected override void Awake()
     {
         base.Awake();
-        eventManager = GetComponent<EventManagerEnemy>();
-        animator = GetComponentInChildren<Animator>();
+        eventManager = controller.GetComponent<EventManagerEnemy>();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
+        eventManager.onStartShooting += ShootAnimation;
+        eventManager.onMovementStarted += StartWalking;
+        eventManager.onMovementEnded += StopWalking;
+        eventManager.onDead += Death;
+
+        //if there's reload, set speed animation of reload based on attack rate
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
+        eventManager.onStartShooting -= ShootAnimation;
+        eventManager.onMovementStarted -= StartWalking;
+        eventManager.onMovementEnded -= StopWalking;
+        eventManager.onDead -= Death;
     }
 
     private void StartWalking()
@@ -35,13 +44,23 @@ public class AnimationManagerEnemy : AnimationManager<Enemy>
         animator.SetBool(Constants.ANIMATION_MOVEMENT, false);
     }
 
-    private void Death()
+    private void Death(Enemy enemy)
     {
         animator.SetTrigger(Constants.ANIMATION_DEATH);
     }
 
-    private void Shoot()
+    private void ShootAnimation()
     {
-        animator.SetTrigger(Constants.ANIMATION_SHOOT);
+        animator.SetBool(Constants.ANIMATION_SHOOT, true);
+    }
+
+    private void StopShooting()
+    {
+        animator.SetBool(Constants.ANIMATION_SHOOT, false);
+    }
+
+    public void MessageShoot()
+    {
+        SendMessageUpwards("Shoot"); 
     }
 }

@@ -177,7 +177,6 @@ public class GameManager : Singleton<GameManager>
         {
             enemy.EventManager.onDead += DeadEnemy;
             enemies.Add(enemy);
-            Debug.Log("Added delegate dead enemy");
         }
     }
 

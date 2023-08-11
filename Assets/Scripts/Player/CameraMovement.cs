@@ -135,7 +135,6 @@ public class CameraMovement : MonoBehaviour
     {
         //Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(input.PlayerInput.Zoom.ReadValue<Vector2>().y, -1,1), minZoomValue, maxZoomValue);
         Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(GetZoomValue(), -1,1), minZoomValue, maxZoomValue);
-        Debug.Log("GetZoomValue: " + GetZoomValue() + "FieldofView: " + Camera.main.fieldOfView);
     }
 
     private float GetZoomValue()
@@ -192,7 +191,6 @@ public class CameraMovement : MonoBehaviour
             mult = -1;
         }
         previousDistance = distance;
-        Debug.Log("Pinch speed:" + zoomPinchSpeed * mult);
         return zoomPinchSpeed * mult;
     }
 

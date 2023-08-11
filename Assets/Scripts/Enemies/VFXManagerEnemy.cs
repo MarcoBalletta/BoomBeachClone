@@ -38,6 +38,6 @@ public class VFXManagerEnemy : VFXManager<Enemy>
 
     private void DestroyedVFX(Enemy enemy)
     {
-        var vfx = Instantiate(deadVFX, transform.position, Quaternion.identity);
+        var vfx = Instantiate(deadVFX, transform.position, transform.rotation);
     }
 }
