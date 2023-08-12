@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-//[RequireComponent(typeof(BoxCollider))]
 public class Spawner : MonoBehaviour
 {
     private List<PoolerEntity> poolers = new List<PoolerEntity>();
-    //private MeshCollider coll;
     [SerializeField] private float innerRadius;
     [SerializeField] private float outerRadius;
     private float wallRadius;
     private float ringRadius;
+
     private void OnEnable()
     {
         GameManager.instance.EventManager.onSimulationModeStarted += SpawnEnemies;
@@ -24,6 +23,7 @@ public class Spawner : MonoBehaviour
         transform.position = GameManager.instance.GetCenterGrid();
     }
 
+    //adds the pooler object to list
     public void SubscribePoolerToList(PoolerEntity pooler)
     {
         if(!poolers.Contains(pooler))
@@ -35,6 +35,7 @@ public class Spawner : MonoBehaviour
         SpawnEnemiesTask();
     }
 
+    //spawns the enemies in the pooler
     private async void SpawnEnemiesTask()
     {
         foreach(var pooler in poolers)
@@ -56,6 +57,7 @@ public class Spawner : MonoBehaviour
         return Task.CompletedTask;
     }
 
+    //gets random position in torus 
     private Vector3 GetRandomPositionInsideTorus()
     {
         float rndAngle = Random.value * 6.28f; // use radians, saves converting degrees to radians

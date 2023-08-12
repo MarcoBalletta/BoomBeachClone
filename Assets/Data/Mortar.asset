@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbb3e4df33eb64469d7e7d76549e5d7, type: 3}
   m_Name: Mortar
   m_EditorClassIdentifier: 
-  resistance: 25
+  resistance: 35
   projectile: {fileID: 4656680103585594346, guid: 3f10d0ad955ba974bad1db95a214954d,
     type: 3}
   range: 16

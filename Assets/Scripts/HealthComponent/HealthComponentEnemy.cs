@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthComponentEnemy : HealthComponent
@@ -7,7 +5,6 @@ public class HealthComponentEnemy : HealthComponent
 
     private Enemy enemy;
 
-    // Start is called before the first frame update
     void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -23,6 +20,7 @@ public class HealthComponentEnemy : HealthComponent
         enemy.EventManager.onSetupEnemy -= SetupHealthComponent;
     }
 
+    //damage and calls on hit event
     public override void Damage(float damage, Vector3 position)
     {
         if (enemy.EventManager.onHit != null)
@@ -30,6 +28,7 @@ public class HealthComponentEnemy : HealthComponent
         base.Damage(damage, position);
     }
 
+    //calls on dead event
     protected override void Dead()
     {
         base.Dead();

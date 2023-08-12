@@ -21,6 +21,7 @@ public class VFXManagerDefense : VFXManagerBuilding
         Controller.EventManager.onShoot -= ShootVFX;
     }
 
+    //spawns the shoot vfx
     private void ShootVFX(Transform transform)
     {
         var vfx = Instantiate(shootVFX, transform.position, transform.rotation);

@@ -1,8 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+//the attack enemy component
+//TO DO : abstract this class, and create enemy shoot component, derives from attack component, create also an interface with method attack for different approaches to 
+//to the attack, ranged or melee
 [RequireComponent(typeof(Enemy))]
 public class EnemyAttackComponent : MonoBehaviour
 {
@@ -34,6 +36,7 @@ public class EnemyAttackComponent : MonoBehaviour
         enemyController.EventManager.onDead -= DeathEnemy;
     }
 
+    //takes attack data from enemy data
     private void SetupAttackComponent(EnemyData data)
     {
         attackRate = data.attackFrequency;
@@ -41,29 +44,21 @@ public class EnemyAttackComponent : MonoBehaviour
         bulletPrefab = data.projectile;
     }
 
+    //subscribe to defense death, starts the attack
     private void AttackStarted()
     {
         enemyController.TargetBuilding.EventManager.onDeadDefense += TargetDefenseDead;
         shootRoutine = StartCoroutine(ShootCoroutine());
     }
 
-    private IEnumerator RotateTowardsTargetBuilding()
-    {
-        Vector3 direction = ((enemyController.TargetBuilding.transform.position + Vector3.up) - transform.position).normalized;
-        Quaternion lookGoal = Quaternion.LookRotation(direction);
-        while(Quaternion.Angle(transform.rotation, lookGoal) > 6)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookGoal, rotationSpeed);
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-    }
-
+    //to do if needed slow rotation with dot, like the building rotation
     private void ImmediateRotateToTarget()
     {
         transform.LookAt(enemyController.TargetBuilding.transform);
         bulletSpawn.LookAt(enemyController.TargetBuilding.transform);
     }
 
+    //coroutine to shooting, waits attack rate and then calls the animation to shoot
     private IEnumerator ShootCoroutine()
     {
         //yield return RotateTowardsTargetBuilding();
@@ -75,6 +70,8 @@ public class EnemyAttackComponent : MonoBehaviour
             yield return new WaitForSeconds(attackRate / GameManager.instance.SimulationSpeed);
         }
     }
+
+    //spawns bullet and setups it
     public void Shoot()
     {
         var bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
@@ -83,42 +80,20 @@ public class EnemyAttackComponent : MonoBehaviour
         bullet.Setup(firePower, bulletSpawn.forward.normalized, false);
     }
 
+    //defense dead
     private void TargetDefenseDead(Defense defense)
     {
         if(shootRoutine != null) StopCoroutine(shootRoutine);
         enemyController.EventManager.onAttackEnded();
     }
 
+    //enemy dead, unsubscribe to on dead defense event
     private void DeathEnemy(Enemy enemy)
     {
+        StopAllCoroutines();
         if(enemyController.TargetBuilding != null)
         {
             enemyController.TargetBuilding.EventManager.onDeadDefense -= TargetDefenseDead;
         }
     }
-
-    #region Version with Task
-    private Task RotateTowardsBuilding()
-    {
-        Vector3 direction = ((enemyController.TargetBuilding.transform.position + Vector3.up) - transform.position).normalized;
-        Quaternion lookGoal = Quaternion.LookRotation(direction);
-        while (Quaternion.Angle(transform.rotation, lookGoal) > 0.1)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookGoal, rotationSpeed);
-            Task.Delay((int)Time.deltaTime * 1000);
-        }
-        return Task.CompletedTask;
-    }
-
-    private async void ShootTask()
-    {
-        await RotateTowardsBuilding();
-        while(enemyController.TargetBuilding != null)
-        {
-            Shoot();
-            await Task.Delay((int)enemyController.Data.attackFrequency * 1000);
-        }
-        enemyController.EventManager.onAttackEnded();
-    }
-    #endregion
 }

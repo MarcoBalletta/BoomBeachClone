@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthComponentDefense : HealthComponent
@@ -25,6 +23,7 @@ public class HealthComponentDefense : HealthComponent
         defense.EventManager.onPlacedBuilding -= ShowHealthUI;
     }
 
+    //calls hit event
     public override void Damage(float damage, Vector3 position)
     {
         if(defense.EventManager.onHit != null)
@@ -32,11 +31,12 @@ public class HealthComponentDefense : HealthComponent
         base.Damage(damage, position);
     }
 
+    //calls dead event
     protected override void Dead()
     {
         base.Dead();
-        Destroy(gameObject, 0.1f);
         defense.EventManager.onDeadDefense(defense);
         defense.EventManager.onDead(defense);
+        Destroy(gameObject, 0.5f);
     }
 }

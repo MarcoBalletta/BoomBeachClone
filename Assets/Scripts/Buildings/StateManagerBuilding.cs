@@ -16,7 +16,6 @@ public class StateManagerBuilding : StateManager
         listOfStates.Add(Constants.STATE_PLACED, new StatePlacedBuilding(this));
     }
 
-    // Start is called before the first frame update
     protected override void Awake()
     {
         base.Awake();
@@ -28,7 +27,6 @@ public class StateManagerBuilding : StateManager
         ChangeState(Constants.STATE_PLACING);
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();

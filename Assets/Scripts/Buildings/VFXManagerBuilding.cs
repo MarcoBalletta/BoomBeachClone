@@ -15,11 +15,13 @@ public class VFXManagerBuilding : VFXManager<Building>
         controller.EventManager.onDead += DestroyedVFX;
     }
 
+    //placed building
     private void PlacedBuildingVFX()
     {
         var vfx = Instantiate(vfxPlaced, transform.position, Quaternion.identity);
     }
 
+    //destroyed building
     private void DestroyedVFX(Building building)
     {
         var vfx = Instantiate(deadVFX, transform.position, Quaternion.identity);

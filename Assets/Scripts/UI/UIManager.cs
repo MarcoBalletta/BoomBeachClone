@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedUpValue;
     [SerializeField] private Button retryButton;
     [SerializeField] private Button backToMenuButton;
-    [SerializeField] private GameObject EndGamePanel;
+    [SerializeField] private GameObject endGamePanel;
     [SerializeField] private TextMeshProUGUI endGameText;
 
     private void Awake()
@@ -23,7 +23,6 @@ public class UIManager : MonoBehaviour
         retryButton.onClick.AddListener(() => GameManager.instance.ReloadScene());
         speedUpButton.onClick.AddListener(() => GameManager.instance.ToggleSpeedUpButton());
         backToMenuButton.onClick.AddListener(() => GameManager.instance.BackToMenu());
-        //back to menu click add listener
     }
 
     private void OnEnable()
@@ -107,7 +106,6 @@ public class UIManager : MonoBehaviour
         {
             endGameText.text = Constants.LOSE_TEXT;
         }
-
-        EndGamePanel.SetActive(true);
+        endGamePanel.SetActive(true);
     }
 }

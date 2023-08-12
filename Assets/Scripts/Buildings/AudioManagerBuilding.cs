@@ -16,11 +16,13 @@ public class AudioManagerBuilding : AudioManager<Building>
         controller.EventManager.onDead += DestroyedSound;
     }
 
+    //clip placed building
     private void PlacedBuildingClip()
     {
         PlayOneShotAudio(placedClip);
     }
 
+    //clip destroyed building
     private void DestroyedSound(Building building)
     {
         PlayOneShotAudio(deadClip);

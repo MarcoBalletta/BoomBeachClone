@@ -6,11 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    private SphereCollider coll;
     private Rigidbody rb;
     [SerializeField] private float speed;
     private float firePower;
-    private bool useGravity;
     private Vector3 direction;
     [SerializeField] private float autoDestructionTime;
 
@@ -18,7 +16,6 @@ public class Bullet : MonoBehaviour
 
     private void Awake()
     {
-        coll = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
         Destroy(gameObject, autoDestructionTime);
     }
@@ -35,11 +32,13 @@ public class Bullet : MonoBehaviour
         MoveBullet();
     }
 
+    //moves the bullet in the bullet spawn forward direction
     protected virtual void MoveBullet()
     {
         rb.AddForce(direction * speed * GameManager.instance.SimulationSpeed);
     }
 
+    //if hits damageable damages it
     private void OnTriggerEnter(Collider collision)
     {
         if(collision.TryGetComponent(out IDamageable damagedEntity))

@@ -9,6 +9,7 @@ public class Mortar : Defense
 
     protected new MortarData Data { get => data as MortarData; }
 
+    //adds enemy to list of attackable enemies, but keeps checking if the enemy gets too close
     protected override void AddEnemyToList(Enemy enemy)
     {
         if (!targets.Contains(enemy))
@@ -20,22 +21,7 @@ public class Mortar : Defense
         }
     }
 
-    //protected override void RemoveEnemyFromList(Enemy enemy)
-    //{
-    //    if (!targets.Contains(enemy))
-    //    {
-    //        targets.Remove(enemy);
-    //        targets.TrimExcess();
-    //        enemy.EventManager.onDead -= TargetKilled;
-    //        eventManager.onLostEnemy(enemy);
-    //        if(targets.Count == 0)
-    //        {
-    //            StopCoroutine(findingTargetCoroutine);
-    //            findingTargetCoroutine = null;
-    //        }
-    //    }
-    //}
-
+    //updates the enemies list based on the distance
     private void UpdateTargetsList()
     {
         if (targets.Count == 0) return;
@@ -46,10 +32,10 @@ public class Mortar : Defense
                 targets.Remove(targets[i]);
                 targets.TrimExcess();
             }
-                //targets.RemoveAll(enemy => targets.Contains(targets[i]));
         }
     }
 
+    //periodically checks if the enemies are too close to the mortar
     private IEnumerator PeriodicallyUpdatesTargetList()
     {
         yield return new WaitForSeconds(0.1f);

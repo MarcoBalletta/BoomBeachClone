@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//handles the camera movement, with mobile and pc inputs
 public class CameraMovement : MonoBehaviour
 {
 
@@ -45,8 +44,6 @@ public class CameraMovement : MonoBehaviour
         input.PlayerInput.SecondaryTouchContact.canceled += SecondaryTouchReleased;
     }
 
-
-
     private void OnDisable()
     {
         GameManager.instance.EventManager.onDraggingBuilding -= CannotMoveCamera;
@@ -68,6 +65,7 @@ public class CameraMovement : MonoBehaviour
         lastPositionMouse = input.PlayerInput.MousePosition.ReadValue<Vector2>();
     }
 
+    //handle of the double click for panning
     private void PressMouse(InputAction.CallbackContext context)
     {
         if(firstClick)
@@ -81,6 +79,7 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
+    //timer handling for the second click in time
     private IEnumerator StartSecondClickTimer()
     {
         actualTimerSecondClick = 0;
@@ -95,6 +94,7 @@ public class CameraMovement : MonoBehaviour
         secondTimerCoroutine = null;
     }
 
+    //hanldes the click releasing, for the double click panning
     private void ReleaseMouse(InputAction.CallbackContext obj)
     {
         if (!firstClick)
@@ -119,11 +119,11 @@ public class CameraMovement : MonoBehaviour
         canMoveCamera = false;
     }
 
+    //checks the movement of the finger, if the camera can pan rotates it in the chosen direction
     private void PanCamera()
     {
         if (isPanning)
         {
-            //var mouseDifference = (Mouse.current.position.ReadValue().x - lastPositionMouse.x);
             var mouseDifference = (input.PlayerInput.MousePosition.ReadValue<Vector2>().x - lastPositionMouse.x);
             Quaternion rotation = pivot.transform.rotation;
             rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y + panSpeed * mouseDifference, rotation.eulerAngles.z);
@@ -133,10 +133,10 @@ public class CameraMovement : MonoBehaviour
 
     private void Zoom()
     {
-        //Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(input.PlayerInput.Zoom.ReadValue<Vector2>().y, -1,1), minZoomValue, maxZoomValue);
         Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - Mathf.Clamp(GetZoomValue(), -1,1), minZoomValue, maxZoomValue);
     }
 
+    //gets the zoom value
     private float GetZoomValue()
     {
         if(SystemInfo.deviceType == DeviceType.Handheld)
@@ -176,6 +176,7 @@ public class CameraMovement : MonoBehaviour
         distance = 0;
     }
 
+    //gets the pinch value and direction
     private float GetTouchPinchValue()
     {
         distance = Vector2.Distance(input.PlayerInput.MousePosition.ReadValue<Vector2>(), input.PlayerInput.SecondaryFingerPosition.ReadValue<Vector2>());
@@ -193,6 +194,5 @@ public class CameraMovement : MonoBehaviour
         previousDistance = distance;
         return zoomPinchSpeed * mult;
     }
-
     #endregion
 }

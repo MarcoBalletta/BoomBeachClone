@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +8,7 @@ public abstract class HealthComponent : MonoBehaviour, IDamageable
     protected float actualHP;
     [SerializeField] protected Slider healthBarSlider;
 
+    //setups the UI and value of health
     protected void SetupHealthComponent(DamageableData data)
     {
         hp = data.resistance;
@@ -28,6 +27,7 @@ public abstract class HealthComponent : MonoBehaviour, IDamageable
         healthBarSlider.gameObject.SetActive(false);
     }
 
+    //updates health value and UI, if dead called dead function 
     public virtual void Damage(float damage, Vector3 position)
     {
         actualHP -= damage;

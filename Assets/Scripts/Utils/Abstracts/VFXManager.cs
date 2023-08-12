@@ -21,15 +21,4 @@ public abstract class VFXManager<T> : MonoBehaviour where T: Controller
     {
 
     }
-
-    //protected virtual void PlayVFX(GameObject vfx, Vector3 position)
-    //{
-    //    vfx.transform.position = position;
-    //    vfx.SetActive(true);
-    //}
-
-    //protected virtual void StopVFX(GameObject vfx)
-    //{
-    //    vfx.SetActive(false);
-    //}
 }

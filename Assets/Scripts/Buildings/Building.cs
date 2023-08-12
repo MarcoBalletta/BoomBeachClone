@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,6 @@ using UnityEngine;
 public class Building : Controller
 {
     protected BoxCollider coll;
-    //private Tile tileUnder;
     [SerializeField] protected LayerMask layerMask;
     protected StateManagerBuilding stateManager;
     protected EventManagerBuilding eventManager;
@@ -16,7 +16,6 @@ public class Building : Controller
     [SerializeField] private List<RaycastUnderTileData> checkTilesUnderPoints = new List<RaycastUnderTileData>();
 
     public EventManagerBuilding EventManager { get => eventManager; set => eventManager = value; }
-    //public Tile TileUnder { get => tileUnder; }
 
     protected virtual void Awake()
     {
@@ -27,40 +26,24 @@ public class Building : Controller
 
     protected virtual void OnEnable()
     {
+        eventManager.onBuildingModeActivated += DeselectUnderTiles;
         eventManager.onBuildingModeUpdate += CheckTilesUnderBuilding;
         eventManager.onBuildingModeReleased += PlaceBuildingIfPossible;
     }
 
     protected virtual void OnDisable()
     {
+        eventManager.onBuildingModeActivated -= DeselectUnderTiles;
         eventManager.onBuildingModeUpdate -= CheckTilesUnderBuilding;
         eventManager.onBuildingModeReleased -= PlaceBuildingIfPossible;
     }
 
     public void StartBuildingMode()
     {
-        //show UI 
         stateManager.ChangeState(Constants.STATE_PLACING);
     }
 
-    //protected void CheckTileUnderBuilding()
-    //{
-    //    if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 3f, layerMask, QueryTriggerInteraction.Collide))
-    //    {
-    //        if (hit.collider.TryGetComponent(out Tile tileHit) && !hit.collider.GetComponent<Tile>().IsOccupied())
-    //        {
-    //            DeselectTile();
-    //            tileUnder = tileHit;
-    //            tileUnder.SelectedTile();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        DeselectTile();
-    //        tileUnder = null;
-    //    }
-    //}
-
+    //raycast down to see if the raycasts positions are hitting a tile
     public void CheckTilesUnderBuilding()
     {
         foreach (var raycastPosition in checkTilesUnderPoints.ToList()) 
@@ -71,10 +54,7 @@ public class Building : Controller
                 {
                     if (!CheckIfTileCanBeUnderTile(tileHit)) continue;
                     DeselectTile(raycastPosition.underTile);
-                    int index = checkTilesUnderPoints.IndexOf(raycastPosition);
-                    var structElementToModify = checkTilesUnderPoints[index];
-                    structElementToModify.underTile = tileHit;
-                    checkTilesUnderPoints[index] = structElementToModify;
+                    FindRaycastAndModifyTileUnder(raycastPosition, tileHit);
                     tileHit.SelectedTile();
                 }
                 else
@@ -89,15 +69,31 @@ public class Building : Controller
         }
     }
 
+    private void DeselectUnderTiles()
+    {
+        foreach(var raycast in checkTilesUnderPoints.ToList())
+        {
+            DeselectUnderTile(raycast);
+        }
+    }
+
+    //deselect the under tile that was selected, changing data and material
     private void DeselectUnderTile(RaycastUnderTileData data)
     {
         DeselectTile(data.underTile);
+        FindRaycastAndModifyTileUnder(data, null);
+    }
+
+    //finds the raycast position and modifies the tile under with given tile
+    private void FindRaycastAndModifyTileUnder(RaycastUnderTileData data, Tile value)
+    {
         int index = checkTilesUnderPoints.IndexOf(data);
         var structElementToModify = checkTilesUnderPoints[index];
-        structElementToModify.underTile = null;
+        structElementToModify.underTile = value;
         checkTilesUnderPoints[index] = structElementToModify;
     }
 
+    //checks if the tile isn't already an under tile for another raycast position
     private bool CheckIfTileCanBeUnderTile(Tile tile)
     {
         foreach(var underTile in checkTilesUnderPoints)
@@ -107,18 +103,14 @@ public class Building : Controller
         return true;
     }
 
-    //protected void DeselectTile()
-    //{
-    //    if (tileUnder != null)
-    //        tileUnder.DeselectedTile();
-    //}
-
+    //deselects the tile
     protected void DeselectTile(Tile tile)
     {
         if (tile != null)
             tile.DeselectedTile();
     }
 
+    //when the player clicks on the rotate button, rotates the building with an angle set in the game manager
     public IEnumerator RotateLerpBuilding()
     {
         Vector3 eulerOriginal = transform.rotation.eulerAngles;
@@ -132,11 +124,7 @@ public class Building : Controller
         transform.rotation = rotObjective;
     }
 
-    //protected bool CheckIfTileIsUnder()
-    //{
-    //    return tileUnder != null;
-    //}
-
+    //checks if every raycast has a tile under
     public bool CheckIfTilesAreUnderBuilding()
     {
         foreach(var tilesUnder in checkTilesUnderPoints)
@@ -147,6 +135,7 @@ public class Building : Controller
         return true;
     }
 
+    //if every raycast has a tile under place the building
     public void PlaceBuildingIfPossible()
     {
         if (CheckIfTilesAreUnderBuilding())
@@ -156,6 +145,7 @@ public class Building : Controller
         }
     }
 
+    //gets all the tiles under
     public List<Tile> GetTilesUnder()
     {
         List<Tile> tiles = new List<Tile>();
@@ -166,6 +156,7 @@ public class Building : Controller
         return tiles;
     }
 
+    //places the building, calls event to game manager, changes the state in placed
     public void PlaceBuilding(Building building, List<Tile> tiles)
     {
         GameManager.instance.EventManager.onBuildingPlaced(building, tiles);
@@ -177,6 +168,7 @@ public class Building : Controller
         stateManager.ChangeState(Constants.STATE_PLACED);
     }
 
+    //clicked on the deselect button in the placing UI, deselects the building and destroys it
     public void DeselectedBuilding()
     {
         foreach(var underTile in checkTilesUnderPoints)
@@ -184,8 +176,10 @@ public class Building : Controller
             if (underTile.underTile != null)
                 underTile.underTile.DeselectedTile();
         }
-        //if (tileUnder)
-        //    tileUnder.DeselectedTile();
+        if(this is Defense)
+        {
+            GameManager.instance.RemoveDefense(this as Defense);
+        }
         Destroy(gameObject);
     }
 

@@ -8,7 +8,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EventManagerEnemy))]
 public class Enemy : Controller
 {
-    //private NavMeshAgent agent;
     private StateManagerEnemy stateManager;
     private EventManagerEnemy eventManager;
     private Defense targetBuilding;
@@ -43,11 +42,13 @@ public class Enemy : Controller
         StartResearch();
     }
 
+    //change state to research
     private void StartResearch()
     {
         stateManager.ChangeState(Constants.STATE_RESEARCH);
     }
 
+    //sets target to defense
     private void SetTargetDefense(Defense building)
     {
         targetBuilding = building;
@@ -55,12 +56,14 @@ public class Enemy : Controller
         stateManager.ChangeState(Constants.STATE_MOVEMENT);
     }
 
+    //initialise data
     private void Init()
     {
         eventManager = GetComponent<EventManagerEnemy>();
         stateManager = GetComponent<StateManagerEnemy>();
     }
 
+    //if target dead attack ended
     private void TargetDead(Building defense)
     {
         if(eventManager.onAttackEnded != null)

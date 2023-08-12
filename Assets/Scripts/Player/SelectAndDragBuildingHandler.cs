@@ -29,6 +29,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         GameManager.instance.EventManager.onBuildingDeselectButtonClick += DeselectBuilding;
     }
 
+    //when starts simulation this script gets disabled
     private void SimulationStarted()
     {
         this.enabled = false;
@@ -43,13 +44,14 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         GameManager.instance.EventManager.onBuildingDeselectButtonClick -= DeselectBuilding;
     }
 
+    //spanws the building in the cursor position
     private void SpawnBuildingSelected(Building building)
     {
         var buildingToSpawn = Instantiate(building, Camera.main.ScreenToWorldPoint(input.PlayerInput.MousePosition.ReadValue<Vector2>()) , Quaternion.identity);
-        //SelectBuilding(buildingToSpawn);
         GameManager.instance.EventManager.onBuildingClick(buildingToSpawn);
     }
 
+    //clicked on a building, gets selected
     private void SelectBuilding(Building building)
     {
         selectedBuilding = building;
@@ -63,6 +65,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         DragBuilding();
     }
 
+    //gets 3D position click
     private Vector3 GetWorldClickPosition()
     {
         Vector3 mousePosition = new Vector3(input.PlayerInput.MousePosition.ReadValue<Vector2>().x, input.PlayerInput.MousePosition.ReadValue<Vector2>().y, Camera.main.transform.position.z);
@@ -75,6 +78,7 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
             return mousePos;
     }
 
+    //drags the building, following the cursor position
     private void DragBuilding()
     {
         if (selectedBuilding != null && clickedOnSelectedBuilding)
@@ -105,16 +109,17 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
         selectedBuilding?.DeselectedBuilding();
     }
 
+    //released cursor
     private void MouseReleased(InputAction.CallbackContext obj)
     {
         if (selectedBuilding)
         {
-            //selectedBuilding.EventManager.onBuildingModeReleased();
             clickedOnSelectedBuilding = false;
             GameManager.instance.EventManager.onStopDraggingBuilding();
         }
     }
 
+    //clicked/pressed cursor, for the mobile double click
     private void MouseClicked(InputAction.CallbackContext obj)
     {
         Ray ray = Camera.main.ScreenPointToRay(input.PlayerInput.MousePosition.ReadValue<Vector2>());

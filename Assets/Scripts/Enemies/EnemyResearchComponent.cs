@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//research component for the enemy
 [RequireComponent(typeof(Enemy))]
 public class EnemyResearchComponent : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class EnemyResearchComponent : MonoBehaviour
         enemyController.EventManager.onResearchStarted -= ResearchBuildingToAttack;
     }
 
+    //searches closest building from list in game manager
     private void ResearchBuildingToAttack()
     {
         Defense closestDefense = null;

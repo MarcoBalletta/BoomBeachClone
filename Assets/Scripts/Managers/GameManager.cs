@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -53,8 +52,6 @@ public class GameManager : Singleton<GameManager>
         eventManager.onDestroyableDestroyed += BakeNavMesh;
     }
 
-
-
     private void OnDisable()
     {
         eventManager.onSetupInitialData -= SetupGameManagerData;
@@ -79,6 +76,7 @@ public class GameManager : Singleton<GameManager>
         maxPlaceableBuildings = data.numberOfPlaceableBuildings;
     }
 
+    //toggles speed up button in simulation mode
     public void ToggleSpeedUpButton()
     {
         if (simulationSpeed == 1)
@@ -88,6 +86,7 @@ public class GameManager : Singleton<GameManager>
         eventManager.onSpeedUpToggle(simulationSpeed);
     }
 
+    //places the building in center of the tiles under
     private void PlaceBuilding(Building building, List<Tile> tiles)
     { 
         building.transform.position = GetCenterOfTiles(tiles);
@@ -95,7 +94,7 @@ public class GameManager : Singleton<GameManager>
         { 
             tile.PlacedBuilding(building);
         }
-        if(building is Defense) 
+        if(building is Defense && !defenses.Contains(building as Defense)) 
         { 
             defenses.Add((building as Defense));
             building.EventManager.onDead += RemoveDefense;
@@ -104,6 +103,7 @@ public class GameManager : Singleton<GameManager>
         StartPlacingMode();
     }
 
+    //gets center position of the list of tiles in order to place the building
     private Vector3 GetCenterOfTiles(List<Tile> tiles)
     {
         Vector3 totalPositions = Vector3.zero;
@@ -134,12 +134,18 @@ public class GameManager : Singleton<GameManager>
         navMesh.BuildNavMesh();
     }
 
-    private void RemoveDefense(Building defense)
+    public void RemoveDefense(Building defense)
     {
-        defenses.Remove((defense as Defense));
-        defenses.TrimExcess();
-        if (defense != null && defense == headquarterInstance)
-            eventManager.onEndMatch(false);
+        if(defenses.Contains(defense as Defense))
+        {
+            defenses.Remove((defense as Defense));
+            defenses.TrimExcess();
+            if (stateManager.CurrentState.nameOfState == Constants.STATE_PLACING)
+                actualPlacedBuildings--;
+            else if(IsGameStarted())
+                if (defense != null && defense == headquarterInstance)
+                    eventManager.onEndMatch(false);
+        }
     }
 
     private void StartPlacingMode()
@@ -157,6 +163,7 @@ public class GameManager : Singleton<GameManager>
         return gridManager.GetCenterOfGrid();
     }
 
+    //random place headquarter in grid
     public async void RandomPlaceHeadquarter()
     {
         headquarterInstance = Instantiate(headquarterInstance, transform.position + transform.up * 5, transform.rotation);
@@ -171,6 +178,7 @@ public class GameManager : Singleton<GameManager>
         headquarterInstance.PlaceBuilding(headquarterInstance, headquarterInstance.GetTilesUnder());
     }
 
+    //adds enemy in list
     private void SpawnedEnemy(Enemy enemy)
     {
         if (!enemies.Contains(enemy))
@@ -180,6 +188,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    //removes enemy from list
     private void DeadEnemy(Enemy enemy)
     {
         if (enemies.Contains(enemy))

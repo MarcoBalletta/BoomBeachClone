@@ -24,6 +24,7 @@ public class PoolerEntity : MonoBehaviour
         GameManager.instance.Spawner.SubscribePoolerToList(this);
     }
 
+    //takes data and set spawn number from it based on enemy type
     private void SetupPoolerInitialData(DataGame data)
     {
         switch (enemyType)

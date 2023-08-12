@@ -15,6 +15,6 @@ MonoBehaviour:
   resistance: 25
   projectile: {fileID: 4656680103585594346, guid: 3f10d0ad955ba974bad1db95a214954d,
     type: 3}
-  range: 16
+  range: 10
   firePower: 5
   shotFrequency: 4

@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The defense controller
+/// Stores the enemies that the defense can hit in a list and attacks one at a time.
+/// Initially get the data and setups the defense
+/// </summary>
 [RequireComponent(typeof(StateManagerDefense))]
 [RequireComponent(typeof(EventManagerDefense))]
 public class Defense : Building
@@ -41,6 +46,7 @@ public class Defense : Building
         eventManager.onSetupBuilding(data);
     }
 
+    //Adds enemy to list of attackable enemies
     protected virtual void AddEnemyToList(Enemy enemy)
     {
         if (!targets.Contains(enemy))
@@ -59,12 +65,14 @@ public class Defense : Building
     //    }
     //}
 
+    //gets the first attackable enemy
     public virtual Enemy GetTarget()
     {
         if (targets.Count == 0) return null;
         return targets[0];
     }
 
+    //removes enemy killed
     public void TargetKilled(Enemy enemy)
     {
         targets.Remove(enemy);

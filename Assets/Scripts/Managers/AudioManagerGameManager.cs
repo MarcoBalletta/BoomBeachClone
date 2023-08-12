@@ -28,6 +28,7 @@ public class AudioManagerGameManager : MonoBehaviour
         eventManager.onEndMatch += PlayEndSong;
     }
 
+    //plays win or lose clip
     private void PlayEndSong(bool result)
     {
         AudioClip clip = result ? winClip : lostClip;

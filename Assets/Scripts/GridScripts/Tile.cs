@@ -34,6 +34,7 @@ public class Tile : MonoBehaviour
     public void DeselectedTile()
     {
         ChangeMaterial(normal);
+        buildingOccupying = null;
     }
 
     public void PlacedBuilding(Building building)

@@ -8,8 +8,6 @@ public class TileData
     public int row;
     public int column;
     public GridManager gm;
-    //public bool walkable;
-    //public AStarData aStarData = new AStarData();
     public Tile tile;
 
     public TileData(GridManager gridManager, int newRow, int newColumn, Tile tile)

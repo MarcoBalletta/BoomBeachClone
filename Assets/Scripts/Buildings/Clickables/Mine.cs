@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//clickable building, explodes on click and does ranged damage to enemies, the layer mask defines the damaged entities
 public class Mine : Building, IClickable, IPointerClickHandler
 {
 
@@ -10,6 +9,7 @@ public class Mine : Building, IClickable, IPointerClickHandler
     [SerializeField] private float damage;
     [SerializeField] private LayerMask layerMaskExplosion;
 
+    //if simulation mode explodes
     public void ClickedOn()
     {
         //if simulation mode
@@ -17,11 +17,13 @@ public class Mine : Building, IClickable, IPointerClickHandler
             Explode();
     }
 
+    //if clicked
     public void OnPointerClick(PointerEventData eventData)
     {
         ClickedOn();
     }
 
+    //finds hit enemies in range
     private void Explode()
     {
         var hitEnemies = Physics.OverlapSphere(transform.position, explosionRange, layerMaskExplosion, QueryTriggerInteraction.Ignore);
@@ -36,6 +38,7 @@ public class Mine : Building, IClickable, IPointerClickHandler
         Destroy(gameObject, 0.1f);
     }
 
+    //on destroy recalculates nav mesh
     private void OnDestroy()
     {
         GameManager.instance.EventManager.onDestroyableDestroyed();

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+//different types of enemies
 public enum EnemyType
 {
     enemyA,

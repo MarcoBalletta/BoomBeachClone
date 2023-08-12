@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
+//clickable interface, for different clickables entities
 public interface IClickable
 {
     public void ClickedOn();

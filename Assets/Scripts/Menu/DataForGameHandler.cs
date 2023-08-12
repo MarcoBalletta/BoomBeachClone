@@ -14,6 +14,7 @@ public class DataForGameHandler : PersistentSingleton<DataForGameHandler>
         dataGame.numberOfPlaceableBuildings = (int)value.value;
     }
 
+    //sets number of enemiesA, at least one enemy has to be at 1
     public void SetNumberOfEnemiesA(Slider value)
     {
         if (value.value == 0 && dataGame.enemiesB == 0 && dataGame.enemiesC == 0) 
@@ -24,6 +25,7 @@ public class DataForGameHandler : PersistentSingleton<DataForGameHandler>
         dataGame.enemiesA = (int)value.value;
     }
 
+    //sets number of enemiesB, at least one enemy has to be at 1
     public void SetNumberOfEnemiesB(Slider value)
     {
         if (value.value == 0 && dataGame.enemiesA == 0 && dataGame.enemiesC == 0) 
@@ -34,6 +36,7 @@ public class DataForGameHandler : PersistentSingleton<DataForGameHandler>
         dataGame.enemiesB = (int)value.value;
     }
 
+    //sets number of enemiesC, at least one enemy has to be at 1
     public void SetNumberOfEnemiesC(Slider value)
     {
         if (value.value == 0 && dataGame.enemiesA == 0 && dataGame.enemiesB == 0) 

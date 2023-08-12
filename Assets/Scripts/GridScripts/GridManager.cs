@@ -25,6 +25,7 @@ public class GridManager : MonoBehaviour
     }
 
     #region GenerationGrid
+    //generates the grid, spawns the tiles
     private void GenerateGrid()
     {
         for (int row = 0; row < maxRow; row++)
@@ -65,6 +66,7 @@ public class GridManager : MonoBehaviour
     }
     #endregion
 
+    //checks if the coordinates are in the grid bounds
     public bool CheckGridBounds(Vector2Int coordinates)
     {
         return (coordinates.x < 0 || coordinates.x >= maxRow || coordinates.y < 0 || coordinates.y >= maxColumn);

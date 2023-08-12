@@ -1,8 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//enemy movement component, after found defense target moves to reach it
+//TO DO insert A* movement
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
@@ -28,14 +29,18 @@ public class EnemyMovementComponent : MonoBehaviour
         GameManager.instance.EventManager.onSpeedUpToggle += SetSpeedAgent;
         enemyController.EventManager.onMovementStarted += MoveToDestination;
         enemyController.EventManager.onSetupEnemy += SetupMovementComponent;
+        enemyController.EventManager.onDead += DeadEnemy;
     }
 
     private void OnDisable()
     {
+        GameManager.instance.EventManager.onSpeedUpToggle -= SetSpeedAgent;
         enemyController.EventManager.onMovementStarted -= MoveToDestination;
         enemyController.EventManager.onSetupEnemy -= SetupMovementComponent;
+        enemyController.EventManager.onDead -= DeadEnemy;
     }
 
+    //setups movement component
     private void SetupMovementComponent(EnemyData data)
     {
         rangeToAttack = data.range;
@@ -43,11 +48,13 @@ public class EnemyMovementComponent : MonoBehaviour
         SetSpeedAgent(GameManager.instance.SimulationSpeed);
     }
 
+    //agent speed based on data and simulation speed
     private void SetSpeedAgent(int value)
     {
         agent.speed = speed * value;
     }
 
+    //reaches destination based on range and visibility of target
     private void MoveToDestination()
     {
         SetSpeedAgent(GameManager.instance.SimulationSpeed);
@@ -56,12 +63,12 @@ public class EnemyMovementComponent : MonoBehaviour
         StartCoroutine(CheckDistance());
     }
 
+    //checks if enemy has clear view to target 
     private IEnumerator CheckDistance()
     {
         bool clearViewToTarget = false;
         while(Vector3.Distance(transform.position, agent.destination) >= rangeToAttack || !clearViewToTarget)
         {
-            Debug.DrawRay(transform.position, (transform.position - agent.destination), Color.black, Time.deltaTime);
             if(Physics.Raycast(transform.position, (agent.destination - transform.position).normalized,  out RaycastHit hit, rangeToAttack, layerMaskCheckClearView, QueryTriggerInteraction.Ignore))
             {
                 if(hit.collider.TryGetComponent(out Building building) && building == enemyController.TargetBuilding)
@@ -81,9 +88,10 @@ public class EnemyMovementComponent : MonoBehaviour
         enemyController.EventManager.onMovementEnded();
     }
 
+    //stops the agent movement
     private void StopAgent()
     {
-        if(!agent.isStopped) agent.isStopped = true;
+        if(agent.isActiveAndEnabled && !agent.isStopped) agent.isStopped = true;
         rb.freezeRotation = true;
         agent.velocity = Vector3.zero;
         agent.enabled = false;
@@ -95,5 +103,11 @@ public class EnemyMovementComponent : MonoBehaviour
         rb.freezeRotation = false;
         agent.isStopped = false;
         agent.speed = speed;
+    }
+
+    private void DeadEnemy(Enemy enemy)
+    {
+        StopAgent();
+        StopAllCoroutines();
     }
 }
