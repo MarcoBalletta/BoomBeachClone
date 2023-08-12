@@ -1,6 +1,7 @@
 # MiniclipTest
 
-This project contains a building mode and simulation mode, based on Boom Beach game./n
+This project contains a building mode and simulation mode, based on Boom Beach game.
+
 It's an event based project, where Game Manager, Buildings and Enemies are handled with states and events using the observer pattern and the state pattern.
 
 In the menu the player can choose how many buildings to spawn and how many of each enemy to spawn.
