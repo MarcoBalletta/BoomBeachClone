@@ -2,13 +2,21 @@
 
 FLOW OF THE GAME: 
 Select the number of buildings, enemy A, B and C in the menu.
+
 Select the building to build clicking on the buttons below.
+
 In the placing mode the player can place, rotate or deselect the building.
+
 If there isn't another building in building mode the player can click on the placed building to move it, rotate it or delete it.
+
 Once the player placed the wanted buildings click on the play button to go to simulation mode.
+
 There will be spawned the number of enemies A,B,C chosen in the menu and they will try to destroy the headquarter.
+
 Finished the simulation the player can retry with the same setup from the menu or go to the menu and change it.
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------
+
 This project contains a building mode and simulation mode, based on Boom Beach game.
 
 It's an event based project, where Game Manager, Buildings and Enemies are handled with states and events using the observer pattern and the state pattern.
