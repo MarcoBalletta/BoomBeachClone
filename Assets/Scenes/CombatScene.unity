@@ -15256,7 +15256,7 @@ MonoBehaviour:
     m_Bits: 192
   layerMaskBuilding:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 3072
 --- !u!114 &1862198595
 MonoBehaviour:
   m_ObjectHideFlags: 0

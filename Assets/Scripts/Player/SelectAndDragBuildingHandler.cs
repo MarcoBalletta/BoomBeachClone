@@ -123,11 +123,13 @@ public class SelectAndDragBuildingHandler : MonoBehaviour
     private void MouseClicked(InputAction.CallbackContext obj)
     {
         Ray ray = Camera.main.ScreenPointToRay(input.PlayerInput.MousePosition.ReadValue<Vector2>());
+        Debug.DrawRay(ray.origin, ray.direction * 1000, Color.black, 5f);
         if (Physics.Raycast(ray, out RaycastHit hit, 5000f, layerMaskBuilding, QueryTriggerInteraction.Ignore))
         {
+            Debug.Log("Hit: " + hit.collider.name);
             if (hit.collider.TryGetComponent(out Building building))
             {
-                if (building == selectedBuilding || selectedBuilding == null)
+                if ((building == selectedBuilding || selectedBuilding == null) && building != GameManager.instance.HeadquarterInstance)
                 {
                     GameManager.instance.EventManager.onBuildingClick(building);
                     GameManager.instance.EventManager.onDraggingBuilding();

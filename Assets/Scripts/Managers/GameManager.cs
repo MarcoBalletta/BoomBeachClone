@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager>
     public StateManagerGameManager StateManager { get => stateManager; }
     public float PlacementAngleRotation { get => placementAngleRotation; }
     public float PlacementSpeedRotation { get => placementSpeedRotation; }
+    public Defense HeadquarterInstance { get => headquarterInstance; }
 
     protected override void Awake()
     {
