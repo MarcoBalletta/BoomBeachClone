@@ -61,7 +61,12 @@ public class EnemyMovementComponent : MonoBehaviour
         SetSpeedAgent(GameManager.instance.SimulationSpeed);
         ResumeAgent();
         agent.destination = enemyController.TargetBuilding.transform.position;
-        if(movementCoroutine == null) movementCoroutine = StartCoroutine(CheckDistance());
+        if (movementCoroutine != null) 
+        {
+            StopCoroutine(movementCoroutine);
+            movementCoroutine = null;
+        } 
+        movementCoroutine = StartCoroutine(CheckDistance());
     }
 
     //checks if enemy has clear view to target 
