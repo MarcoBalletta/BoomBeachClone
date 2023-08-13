@@ -172,6 +172,7 @@ public class GameManager : Singleton<GameManager>
         {
             gridManager.GenerateRowAndColumnRandom(out Vector2Int position);
             headquarterInstance.transform.position = gridManager.GetWorld3DPosition(position) + Vector3.up*2;
+            await System.Threading.Tasks.Task.Delay(30);
             headquarterInstance.PlacedState();
             headquarterInstance.CheckTilesUnderBuilding();
         }

@@ -128,4 +128,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 25
-  autoDestructionTime: 6
+  autoDestructionTime: 10

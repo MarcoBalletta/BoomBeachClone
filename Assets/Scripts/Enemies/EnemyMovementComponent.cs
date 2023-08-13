@@ -16,6 +16,7 @@ public class EnemyMovementComponent : MonoBehaviour
     private Rigidbody rb;
     private float rangeToAttack;
     private float speed;
+    private Coroutine movementCoroutine;
 
     void Awake()
     {
@@ -60,17 +61,20 @@ public class EnemyMovementComponent : MonoBehaviour
         SetSpeedAgent(GameManager.instance.SimulationSpeed);
         ResumeAgent();
         agent.destination = enemyController.TargetBuilding.transform.position;
-        StartCoroutine(CheckDistance());
+        if(movementCoroutine == null) movementCoroutine = StartCoroutine(CheckDistance());
     }
 
     //checks if enemy has clear view to target 
     private IEnumerator CheckDistance()
     {
         bool clearViewToTarget = false;
+        Debug.Log("Target: " + enemyController.TargetBuilding + " --- Range: " + rangeToAttack + " ---Distance: " + Vector3.Distance(transform.position, agent.destination) + "Clear view: " + clearViewToTarget); ;
         while(Vector3.Distance(transform.position, agent.destination) >= rangeToAttack || !clearViewToTarget)
         {
+            Debug.Log("Cycle");
             if(Physics.Raycast(transform.position, (agent.destination - transform.position).normalized,  out RaycastHit hit, rangeToAttack, layerMaskCheckClearView, QueryTriggerInteraction.Ignore))
             {
+                Debug.Log("Hit: " + hit.collider.name);
                 if(hit.collider.TryGetComponent(out Building building) && building == enemyController.TargetBuilding)
                 {
                     clearViewToTarget = true;
@@ -86,6 +90,8 @@ public class EnemyMovementComponent : MonoBehaviour
         StopAgent();
         //raycast verso target building per cercare ostacoli
         enemyController.EventManager.onMovementEnded();
+        StopCoroutine(movementCoroutine);
+        movementCoroutine = null;
     }
 
     //stops the agent movement

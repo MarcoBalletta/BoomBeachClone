@@ -580,7 +580,7 @@ MonoBehaviour:
   speedUpValue: {fileID: 1710504255}
   retryButton: {fileID: 747108177}
   backToMenuButton: {fileID: 1626931468}
-  EndGamePanel: {fileID: 501161230}
+  endGamePanel: {fileID: 501161230}
   endGameText: {fileID: 2127749947}
 --- !u!4 &292258885
 Transform:

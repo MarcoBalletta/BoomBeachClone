@@ -62,10 +62,10 @@ public class EnemyAttackComponent : MonoBehaviour
     private IEnumerator ShootCoroutine()
     {
         //yield return RotateTowardsTargetBuilding();
-        ImmediateRotateToTarget();
         while (enemyController.TargetBuilding != null)
         {
             //Shoot();
+            ImmediateRotateToTarget();
             enemyController.EventManager.onStartShooting();
             yield return new WaitForSeconds(attackRate / GameManager.instance.SimulationSpeed);
         }
